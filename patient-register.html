@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Emergency Profile | MedAccess</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* =========================================================
+           PATIENT REGISTRATION
+           ========================================================= */
+
+        .register-page {
+            min-height: 100vh;
+            background: #f6f9fc;
+            padding-top: 90px;
+        }
+
+        .register-container {
+            width: min(900px, 92%);
+            margin: auto;
+            padding: 45px 0 70px;
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .register-eyebrow {
+            color: #2563eb;
+            font-size: .8rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .register-header h1 {
+            margin: 0 0 12px;
+            color: #111827;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .register-header p {
+            color: #64748b;
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* Progress */
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+        }
+
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #e2e8f0;
+            color: #64748b;
+            font-weight: 800;
+            transition: .3s ease;
+        }
+
+        .progress-step.active .step-circle {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 0 0 5px rgba(37,99,235,.1);
+        }
+
+        .progress-step.completed .step-circle {
+            background: #16a34a;
+            color: white;
+        }
+
+        .progress-line {
+            width: 70px;
+            height: 3px;
+            background: #e2e8f0;
+            transition: .3s ease;
+        }
+
+        .progress-line.active {
+            background: #2563eb;
+        }
+
+        /* Form card */
+
+        .register-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            box-shadow: 0 18px 55px rgba(15,23,42,.08);
+            overflow: hidden;
+        }
+
+        .form-section {
+            display: none;
+            padding: 35px;
+            animation: sectionAppear .4s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes sectionAppear {
+            from {
+                opacity: 0;
+                transform: translateX(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-title {
+            margin-bottom: 28px;
+        }
+
+        .section-title h2 {
+            margin: 0 0 7px;
+            color: #111827;
+        }
+
+        .section-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: .9rem;
+        }
+
+        /* Form fields */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 13px 14px;
+            background: white;
+            color: #111827;
+            font: inherit;
+            outline: none;
+            transition: .25s ease;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,.08);
+        }
+
+        .field-help {
+            margin-top: 6px;
+            color: #94a3b8;
+            font-size: .75rem;
+        }
+
+        /* Notice */
+
+        .info-notice {
+            display: flex;
+            gap: 13px;
+            padding: 16px;
+            border-radius: 14px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            margin-bottom: 25px;
+        }
+
+        .info-notice-icon {
+            font-size: 1.2rem;
+        }
+
+        .info-notice p {
+            margin: 0;
+            color: #475569;
+            font-size: .82rem;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 22px 35px;
+            border-top: 1px solid #e5e7eb;
+            background: #fafafa;
+        }
+
+        .form-button {
+            border: none;
+            cursor: pointer;
+            padding: 13px 22px;
+            border-radius: 11px;
+            font: inherit;
+            font-weight: 800;
+            transition: .3s ease;
+        }
+
+        .form-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .next-button,
+        .submit-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .submit-button {
+            background: #16a34a;
+        }
+
+        /* Security */
+
+        .security-footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #64748b;
+            font-size: .8rem;
+        }
+
+        .security-footer strong {
+            color: #16a34a;
+        }
+
+        /* Password */
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 48px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 650px) {
+
+            .register-page {
+                padding-top: 75px;
+            }
+
+            .register-container {
+                width: 94%;
+                padding-top: 30px;
+            }
+
+            .form-section {
+                padding: 25px 20px;
+            }
+
+            .form-navigation {
+                padding: 18px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .progress-line {
+                width: 35px;
+            }
+
+            .step-circle {
+                width: 32px;
+                height: 32px;
+                font-size: .8rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="site-header">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-mark">+</span>
+                <span>MedAccess</span>
+            </a>
+
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="emergency.html">Emergency View</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="register-page">
+
+        <div class="register-container">
+
+            <!-- HEADER -->
+
+            <div class="register-header">
+
+                <div class="register-eyebrow">
+                    Emergency profile
+                </div>
+
+                <h1>Create Your Emergency Profile</h1>
+
+                <p>
+                    Store essential medical information that can help
+                    responders assist you when you cannot communicate.
+                </p>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-container">
+
+                <div class="progress-step active" id="progress1">
+
+                    <div class="step-circle">1</div>
+
+                </div>
+
+                <div class="progress-line" id="line1"></div>
+
+                <div class="progress-step" id="progress2">
+
+                    <div class="step-circle">2</div>
+
+                </div>
+
+                <div class="progress-line" id="line2"></div>
+
+                <div class="progress-step" id="progress3">
+
+                    <div class="step-circle">3</div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <form
+                class="register-card"
+                id="registrationForm">
+
+
+                <!-- STEP 1 -->
+
+                <section
+                    class="form-section active"
+                    id="step1">
+
+                    <div class="section-title">
+
+                        <h2>Personal Information</h2>
+
+                        <p>
+                            Tell us who you are and how your account can be secured.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Full Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="full_name"
+                                placeholder="Enter your full name"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Mobile Number
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="9876543210"
+                                pattern="[0-9]{10}"
+                                required>
+
+                            <span class="field-help">
+                                10-digit mobile number
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Password
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    minlength="6"
+                                    placeholder="Minimum 6 characters"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    id="togglePassword">
+
+                                    👁
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Confirm Password
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                minlength="6"
+                                placeholder="Re-enter password"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- STEP 2 -->
+
+                <section
+                    class="form-section"
+                    id="step2">
+
+                    <div class="section-title">
+
+                        <h2>Medical Information</h2>
+
+                        <p>
+                            Add information that could be critical during an emergency.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-notice">
+
+                        <div class="info-notice-icon">
+                            ⚠️
+                        </div>
+
+                        <p>
+                            Only provide accurate medical information.
+                            Critical information may be displayed to emergency
+                            responders when your profile is accessed.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Blood Group
+                            </label>
+
+                            <select name="blood_group">
+
+                                <option value="">
+                                    Select blood group
+                                </option>
+
+                                <option>O+</option>
+                                <option>O-</option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>Unknown</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Critical Allergy
+                            </label>
+
+                            <input
+                                type="text"
+                                name="allergies"
+                                placeholder="e.g. Penicillin">
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Existing Medical Conditions
+                            </label>
+
+                            <textarea
+                                name="medical_conditions"
+                                placeholder="e.g. Type 2 Diabetes, Asthma"></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Critical Medications
+                            </label>
+
+                            <textarea
+                                name="critical_medications"
+                                placeholder="List important medications and dosage if known"></textarea>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- STEP 3 -->
+
+                <section
+                    class="form-section"
+                    id="step3">
+
+                    <div class="section-title">
+
+                        <h2>Emergency Contact</h2>
+
+                        <p>
+                            Someone responders can contact during an emergency.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Contact Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="emergency_contact_name"
+                                placeholder="e.g. Priya Kumar"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Contact Phone
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                name="emergency_contact_phone"
+                                placeholder="9876543210"
+                                pattern="[0-9]{10}"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <div class="info-notice">
+
+                                <div class="info-notice-icon">
+                                    🔐
+                                </div>
+
+                                <p>
+                                    Your detailed medical records will remain
+                                    protected. Emergency responders only receive
+                                    the information necessary for emergency care.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- NAVIGATION -->
+
+                <div class="form-navigation">
+
+                    <button
+                        type="button"
+                        class="form-button back-button"
+                        id="backButton"
+                        style="visibility:hidden;">
+
+                        ← Back
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="form-button next-button"
+                        id="nextButton">
+
+                        Continue →
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="form-button submit-button"
+                        id="submitButton"
+                        style="display:none;">
+
+                        Create Emergency Profile ✓
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div class="security-footer">
+
+                🛡 <strong>Privacy by design.</strong>
+                Your medical information is protected and access is logged.
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="js/main.js"></script>
+
+
+    <script>
+
+        /* =========================================================
+           MULTI-STEP REGISTRATION
+           ========================================================= */
+
+        let currentStep = 1;
+
+        const totalSteps = 3;
+
+        const nextButton =
+            document.getElementById("nextButton");
+
+        const backButton =
+            document.getElementById("backButton");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+        const form =
+            document.getElementById("registrationForm");
+
+
+        function showStep(step) {
+
+            for (let i = 1; i <= totalSteps; i++) {
+
+                const section =
+                    document.getElementById("step" + i);
+
+                const progress =
+                    document.getElementById("progress" + i);
+
+                section.classList.remove("active");
+
+                progress.classList.remove("active");
+
+            }
+
+
+            document
+                .getElementById("step" + step)
+                .classList.add("active");
+
+
+            document
+                .getElementById("progress" + step)
+                .classList.add("active");
+
+
+            /* Completed steps */
+
+            for (let i = 1; i < step; i++) {
+
+                document
+                    .getElementById("progress" + i)
+                    .classList.add("completed");
+
+            }
+
+
+            /* Progress lines */
+
+            document
+                .getElementById("line1")
+                .classList.toggle("active", step >= 2);
+
+            document
+                .getElementById("line2")
+                .classList.toggle("active", step >= 3);
+
+
+            /* Buttons */
+
+            backButton.style.visibility =
+                step === 1 ? "hidden" : "visible";
+
+
+            nextButton.style.display =
+                step === totalSteps ? "none" : "block";
+
+
+            submitButton.style.display =
+                step === totalSteps ? "block" : "none";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+        function validateCurrentStep() {
+
+            const section =
+                document.getElementById("step" + currentStep);
+
+            const inputs =
+                section.querySelectorAll(
+                    "input, select, textarea"
+                );
+
+
+            for (const input of inputs) {
+
+                if (!input.checkValidity()) {
+
+                    input.reportValidity();
+
+                    return false;
+
+                }
+
+            }
+
+
+            /* Password confirmation */
+
+            if (currentStep === 1) {
+
+                const password =
+                    document.getElementById("password").value;
+
+                const confirmPassword =
+                    document.getElementById("confirmPassword").value;
+
+
+                if (password !== confirmPassword) {
+
+                    alert("Passwords do not match.");
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+        nextButton.addEventListener("click", () => {
+
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            if (currentStep < totalSteps) {
+
+                currentStep++;
+
+                showStep(currentStep);
+
+            }
+
+        });
+
+
+        backButton.addEventListener("click", () => {
+
+            if (currentStep > 1) {
+
+                currentStep--;
+
+                showStep(currentStep);
+
+            }
+
+        });
+
+
+        /* =========================================================
+           PASSWORD VISIBILITY
+           ========================================================= */
+
+        document
+            .getElementById("togglePassword")
+            .addEventListener("click", function () {
+
+                const password =
+                    document.getElementById("password");
+
+                if (password.type === "password") {
+
+                    password.type = "text";
+
+                    this.textContent = "🙈";
+
+                } else {
+
+                    password.type = "password";
+
+                    this.textContent = "👁";
+
+                }
+
+            });
+
+
+        /* =========================================================
+           FORM SUBMISSION
+           ========================================================= */
+
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+
+            const formData =
+                new FormData(form);
+
+
+            const data = {
+
+                full_name:
+                    formData.get("full_name"),
+
+                phone:
+                    formData.get("phone"),
+
+                email:
+                    formData.get("email"),
+
+                password:
+                    formData.get("password"),
+
+                blood_group:
+                    formData.get("blood_group"),
+
+                allergies:
+                    formData.get("allergies"),
+
+                medical_conditions:
+                    formData.get("medical_conditions"),
+
+                critical_medications:
+                    formData.get("critical_medications"),
+
+                emergency_contact_name:
+                    formData.get("emergency_contact_name"),
+
+                emergency_contact_phone:
+                    formData.get("emergency_contact_phone")
+
+            };
+
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Creating Profile...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "backend/register.php",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(data)
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!result.success) {
+
+                    alert(
+                        result.message ||
+                        "Registration failed."
+                    );
+
+                    submitButton.disabled = false;
+
+                    submitButton.textContent =
+                        "Create Emergency Profile ✓";
+
+                    return;
+
+                }
+
+
+                /*
+                | Save session information
+                */
+
+                localStorage.setItem(
+                    "emergency_id",
+                    result.emergency_id
+                );
+
+
+                localStorage.setItem(
+                    "user_id",
+                    result.user_id
+                );
+
+
+                /*
+                | Success
+                */
+
+                alert(
+                    "Emergency profile created successfully!\n\n" +
+                    "Your Emergency ID: " +
+                    result.emergency_id
+                );
+
+
+                window.location.href =
+                    "patient-dashboard.html";
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to connect to the server. " +
+                    "Please make sure XAMPP Apache is running."
+                );
+
+
+                submitButton.disabled = false;
+
+                submitButton.textContent =
+                    "Create Emergency Profile ✓";
+
+            }
+
+        });
+
+
+        showStep(1);
+
+    </script>
+
+</body>
+</html>

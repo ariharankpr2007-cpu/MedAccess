@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>SMS Emergency Access | MedAccess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+
+    <style>
+
+        .sms-page {
+
+            min-height:100vh;
+
+            background:#f6f9fc;
+
+            padding-top:90px;
+
+        }
+
+
+        .sms-container {
+
+            width:min(850px,92%);
+
+            margin:auto;
+
+            padding:55px 0 70px;
+
+        }
+
+
+        .sms-header {
+
+            text-align:center;
+
+            margin-bottom:35px;
+
+        }
+
+
+        .sms-eyebrow {
+
+            color:#2563eb;
+
+            font-size:.8rem;
+
+            font-weight:800;
+
+            letter-spacing:.12em;
+
+            text-transform:uppercase;
+
+            margin-bottom:10px;
+
+        }
+
+
+        .sms-header h1 {
+
+            margin:0 0 12px;
+
+            font-size:clamp(2rem,5vw,3rem);
+
+            color:#111827;
+
+        }
+
+
+        .sms-header p {
+
+            max-width:650px;
+
+            margin:auto;
+
+            color:#64748b;
+
+            line-height:1.7;
+
+        }
+
+
+        .sms-card {
+
+            background:white;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:24px;
+
+            padding:32px;
+
+            box-shadow:
+
+                0 18px 55px
+
+                rgba(15,23,42,.08);
+
+        }
+
+
+        .phone-display {
+
+            max-width:360px;
+
+            margin:0 auto 30px;
+
+            padding:22px;
+
+            border-radius:28px;
+
+            background:#111827;
+
+            box-shadow:
+
+                0 20px 45px
+
+                rgba(15,23,42,.2);
+
+        }
+
+
+        .phone-top {
+
+            color:#94a3b8;
+
+            font-size:.7rem;
+
+            text-align:center;
+
+            margin-bottom:15px;
+
+        }
+
+
+        .message-screen {
+
+            background:#f8fafc;
+
+            border-radius:17px;
+
+            min-height:230px;
+
+            padding:18px;
+
+        }
+
+
+        .message-bubble {
+
+            display:none;
+
+            max-width:90%;
+
+            margin-left:auto;
+
+            padding:13px;
+
+            border-radius:
+
+                15px 15px 4px 15px;
+
+            background:#dbeafe;
+
+            color:#1e293b;
+
+            font-size:.82rem;
+
+            line-height:1.6;
+
+            white-space:pre-line;
+
+        }
+
+
+        .message-bubble.show {
+
+            display:block;
+
+            animation:
+
+                messageAppear .4s ease;
+
+        }
+
+
+        @keyframes messageAppear {
+
+            from {
+
+                opacity:0;
+
+                transform:translateY(12px);
+
+            }
+
+            to {
+
+                opacity:1;
+
+                transform:translateY(0);
+
+            }
+
+        }
+
+
+        .sms-form {
+
+            max-width:600px;
+
+            margin:auto;
+
+        }
+
+
+        .sms-form label {
+
+            display:block;
+
+            margin-bottom:8px;
+
+            color:#334155;
+
+            font-size:.85rem;
+
+            font-weight:800;
+
+        }
+
+
+        .sms-form input {
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:14px;
+
+            border:
+
+                1px solid #cbd5e1;
+
+            border-radius:12px;
+
+            font:inherit;
+
+            outline:none;
+
+            margin-bottom:18px;
+
+        }
+
+
+        .sms-form input:focus {
+
+            border-color:#2563eb;
+
+            box-shadow:
+
+                0 0 0 4px
+
+                rgba(37,99,235,.08);
+
+        }
+
+
+        .sms-button {
+
+            width:100%;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:12px;
+
+            background:#2563eb;
+
+            color:white;
+
+            font:inherit;
+
+            font-weight:800;
+
+            cursor:pointer;
+
+            transition:.3s ease;
+
+        }
+
+
+        .sms-button:hover {
+
+            transform:translateY(-2px);
+
+            box-shadow:
+
+                0 10px 25px
+
+                rgba(37,99,235,.2);
+
+        }
+
+
+        .sms-button:disabled {
+
+            opacity:.6;
+
+            cursor:not-allowed;
+
+        }
+
+
+        .sms-info {
+
+            margin-top:25px;
+
+            padding:17px;
+
+            border-radius:14px;
+
+            background:#eff6ff;
+
+            border:1px solid #dbeafe;
+
+            color:#475569;
+
+            font-size:.82rem;
+
+            line-height:1.6;
+
+        }
+
+
+        .sms-info strong {
+
+            color:#1e40af;
+
+        }
+
+
+        .error-message {
+
+            display:none;
+
+            margin-top:15px;
+
+            padding:13px;
+
+            border-radius:11px;
+
+            background:#fef2f2;
+
+            color:#b91c1c;
+
+            border:1px solid #fecaca;
+
+            font-size:.82rem;
+
+        }
+
+
+        @media(max-width:600px) {
+
+            .sms-page {
+
+                padding-top:75px;
+
+            }
+
+            .sms-container {
+
+                width:94%;
+
+            }
+
+            .sms-card {
+
+                padding:22px 18px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+    <div class="container nav-container">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <span class="logo-mark">+</span>
+
+            <span>MedAccess</span>
+
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="emergency.html">
+                Emergency View
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="sms-page">
+
+
+<div class="sms-container">
+
+
+    <div class="sms-header">
+
+        <div class="sms-eyebrow">
+            Universal Emergency Access
+        </div>
+
+
+        <h1>
+            Emergency Access via SMS
+        </h1>
+
+
+        <p>
+            No smartphone? No internet?
+            A basic mobile phone can still request
+            essential emergency information using
+            the patient's Emergency ID.
+        </p>
+
+    </div>
+
+
+
+    <div class="sms-card">
+
+
+        <!-- PHONE -->
+
+        <div class="phone-display">
+
+            <div class="phone-top">
+                BASIC MOBILE • SMS
+            </div>
+
+
+            <div class="message-screen">
+
+                <div
+                    class="message-bubble"
+                    id="messageBubble">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form
+            class="sms-form"
+            id="smsForm">
+
+
+            <label for="emergencyId">
+
+                Emergency ID
+
+            </label>
+
+
+            <input
+                type="text"
+                id="emergencyId"
+                placeholder="Example: MED-9713-59"
+                required>
+
+
+            <label for="senderPhone">
+
+                Your Mobile Number
+
+            </label>
+
+
+            <input
+                type="tel"
+                id="senderPhone"
+                placeholder="10-digit mobile number"
+                pattern="[0-9]{10}"
+                required>
+
+
+            <button
+                class="sms-button"
+                id="smsButton"
+                type="submit">
+
+                Send Emergency SMS
+
+            </button>
+
+
+            <div
+                class="error-message"
+                id="smsError">
+            </div>
+
+
+        </form>
+
+
+
+        <div class="sms-info">
+
+            📱 <strong>Prototype mode:</strong>
+
+            This page simulates the SMS gateway locally.
+            In production, the same backend can be connected
+            to a real SMS provider.
+
+            <br><br>
+
+            🔐 Only essential emergency information is
+            returned through SMS. Detailed medical records
+            remain protected.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+
+<script>
+
+const smsForm =
+    document.getElementById(
+        "smsForm"
+    );
+
+
+const smsButton =
+    document.getElementById(
+        "smsButton"
+    );
+
+
+const messageBubble =
+    document.getElementById(
+        "messageBubble"
+    );
+
+
+const smsError =
+    document.getElementById(
+        "smsError"
+    );
+
+
+
+smsForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const emergencyId =
+            document
+                .getElementById(
+                    "emergencyId"
+                )
+                .value
+                .trim()
+                .toUpperCase();
+
+
+        const senderPhone =
+            document
+                .getElementById(
+                    "senderPhone"
+                )
+                .value
+                .trim();
+
+
+        smsError.style.display =
+            "none";
+
+
+        messageBubble.classList.remove(
+            "show"
+        );
+
+
+        smsButton.disabled = true;
+
+        smsButton.textContent =
+            "Sending SMS...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "backend/sms-lookup.php",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                emergency_id:
+                                    emergencyId,
+
+                                sender_phone:
+                                    senderPhone
+
+                            })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!result.success) {
+
+                smsError.textContent =
+                    result.message ||
+                    "Emergency profile not found.";
+
+                smsError.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            /*
+            | Display simulated SMS
+            */
+
+            messageBubble.textContent =
+                result.message;
+
+
+            messageBubble.classList.add(
+                "show"
+            );
+
+
+        } catch(error) {
+
+            console.error(error);
+
+
+            smsError.textContent =
+                "Unable to connect to the emergency server.";
+
+
+            smsError.style.display =
+                "block";
+
+
+        } finally {
+
+            smsButton.disabled =
+                false;
+
+            smsButton.textContent =
+                "Send Emergency SMS";
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

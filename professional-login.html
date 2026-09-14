@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Professional Access | MedAccess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+    <style>
+
+        .professional-page {
+
+            min-height:100vh;
+
+            background:#f6f9fc;
+
+            padding-top:90px;
+
+            display:flex;
+
+            align-items:center;
+
+        }
+
+
+        .professional-container {
+
+            width:min(500px,92%);
+
+            margin:auto;
+
+            padding:45px 0 65px;
+
+        }
+
+
+        .professional-header {
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+        }
+
+
+        .professional-icon {
+
+            width:72px;
+
+            height:72px;
+
+            margin:0 auto 18px;
+
+            border-radius:20px;
+
+            display:grid;
+
+            place-items:center;
+
+            background:#dbeafe;
+
+            color:#2563eb;
+
+            font-size:2rem;
+
+            animation:professionalFloat 3s ease-in-out infinite;
+
+        }
+
+
+        @keyframes professionalFloat {
+
+            50% {
+
+                transform:translateY(-7px);
+
+            }
+
+        }
+
+
+        .professional-header h1 {
+
+            margin:0 0 10px;
+
+            color:#111827;
+
+            font-size:clamp(
+                2rem,
+                5vw,
+                2.7rem
+            );
+
+        }
+
+
+        .professional-header p {
+
+            margin:auto;
+
+            color:#64748b;
+
+            line-height:1.7;
+
+            font-size:.9rem;
+
+        }
+
+
+        .professional-card {
+
+            background:white;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:24px;
+
+            padding:32px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(15,23,42,.08);
+
+        }
+
+
+        .role-label {
+
+            display:block;
+
+            margin-bottom:9px;
+
+            color:#334155;
+
+            font-size:.85rem;
+
+            font-weight:800;
+
+        }
+
+
+        .role-select,
+        .professional-input {
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:14px;
+
+            border:1px solid #cbd5e1;
+
+            border-radius:12px;
+
+            background:white;
+
+            color:#111827;
+
+            font:inherit;
+
+            outline:none;
+
+            transition:.25s ease;
+
+            margin-bottom:19px;
+
+        }
+
+
+        .role-select:focus,
+        .professional-input:focus {
+
+            border-color:#2563eb;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,.08);
+
+        }
+
+
+        .professional-button {
+
+            width:100%;
+
+            border:none;
+
+            padding:14px;
+
+            border-radius:12px;
+
+            background:#2563eb;
+
+            color:white;
+
+            font:inherit;
+
+            font-weight:800;
+
+            cursor:pointer;
+
+            transition:.3s ease;
+
+        }
+
+
+        .professional-button:hover {
+
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(37,99,235,.2);
+
+        }
+
+
+        .professional-button:disabled {
+
+            opacity:.6;
+
+            cursor:not-allowed;
+
+        }
+
+
+        .security-note {
+
+            margin-top:20px;
+
+            padding:15px;
+
+            border-radius:13px;
+
+            background:#eff6ff;
+
+            border:1px solid #dbeafe;
+
+            color:#475569;
+
+            font-size:.78rem;
+
+            line-height:1.6;
+
+        }
+
+
+        .demo-note {
+
+            margin-top:12px;
+
+            color:#94a3b8;
+
+            font-size:.72rem;
+
+            text-align:center;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+    <div class="container nav-container">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <span class="logo-mark">+</span>
+
+            <span>MedAccess</span>
+
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="emergency.html">
+                Emergency View
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="professional-page">
+
+    <div class="professional-container">
+
+
+        <div class="professional-header">
+
+            <div class="professional-icon">
+                🏥
+            </div>
+
+
+            <h1>
+                Professional Access
+            </h1>
+
+
+            <p>
+                Emergency access portal for
+                paramedics, doctors and hospital staff.
+            </p>
+
+        </div>
+
+
+
+        <div class="professional-card">
+
+
+            <form id="professionalLoginForm">
+
+    <label
+        class="role-label"
+        for="professionalId">
+
+        Professional ID
+
+    </label>
+
+    <input
+        id="professionalId"
+        class="professional-input"
+        type="text"
+        placeholder="Example: PARA-1001"
+        autocomplete="username"
+        required>
+
+
+    <label
+        class="role-label"
+        for="professionalPassword">
+
+        Password
+
+    </label>
+
+    <input
+        id="professionalPassword"
+        class="professional-input"
+        type="password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        required>
+
+
+    <button
+        type="submit"
+        class="professional-button"
+        id="professionalButton">
+
+        Sign In to Emergency Portal →
+
+    </button>
+
+</form>
+
+
+
+            <div class="security-note">
+
+    🔐 <strong>Secure Professional Access:</strong>
+
+    Your Professional ID and password are verified
+    against an authorized professional account.
+    Emergency access is temporary and audited.
+
+</div>
+
+
+            <div class="demo-note">
+
+                Demo environment — not for real medical use.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+const loginForm =
+    document.getElementById(
+        "professionalLoginForm"
+    );
+
+
+const loginButton =
+    document.getElementById(
+        "professionalButton"
+    );
+
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const professionalId =
+            document.getElementById(
+                "professionalId"
+            ).value.trim().toUpperCase();
+
+
+        const password =
+            document.getElementById(
+                "professionalPassword"
+            ).value;
+
+
+        if (
+            !professionalId ||
+            !password
+        ) {
+
+            alert(
+                "Please enter your Professional ID and password."
+            );
+
+            return;
+        }
+
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Authenticating...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "backend/professional-login.php",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        credentials: "include",
+
+                        body: JSON.stringify({
+                            professional_id:
+                                professionalId,
+
+                            password:
+                                password
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                alert(
+                    data.message ||
+                    "Authentication failed."
+                );
+
+                loginButton.disabled = false;
+
+                loginButton.textContent =
+                    "Sign In to Emergency Portal →";
+
+                return;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store display information
+            |--------------------------------------------------------------------------
+            |
+            | These values are ONLY used by the frontend
+            | to display the logged-in professional.
+            |
+            | Authorization is handled by the PHP session.
+            |
+            */
+
+            sessionStorage.setItem(
+                "professional_role",
+                data.professional.role
+            );
+
+
+            sessionStorage.setItem(
+                "professional_id",
+                data.professional.id
+            );
+
+
+            sessionStorage.setItem(
+                "professional_name",
+                data.professional.name
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Open professional portal
+            |--------------------------------------------------------------------------
+            */
+
+            window.location.href =
+                "professional-dashboard.html";
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Professional login error:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to the authentication server."
+            );
+
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Sign In to Emergency Portal →";
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

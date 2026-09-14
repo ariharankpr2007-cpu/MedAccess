@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="A universal emergency medical information access platform designed to help people access critical medical information during emergencies.">
+
+    <title>Emergency Medical Access | Every Second Matters</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         PAGE LOADER
+    ========================== -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-ring"></div>
+        <span>Preparing emergency access...</span>
+    </div>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <header class="site-header" id="siteHeader">
+
+        <div class="container nav-wrapper">
+
+            <a href="index.html" class="brand">
+
+                <div class="brand-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="brand-text">
+                    <strong>MedAccess</strong>
+                    <small>Emergency Information</small>
+                </div>
+
+            </a>
+
+
+            <nav class="desktop-nav">
+
+                <a href="#how-it-works">How it works</a>
+                <a href="#access">Access methods</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#about">About</a>
+
+                <a href="#emergency" class="nav-emergency">
+                    Emergency Access
+                    <span>↗</span>
+                </a>
+
+            </nav>
+
+
+            <button class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="Open navigation menu">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Navigation -->
+
+        <div class="mobile-nav" id="mobileNav">
+
+            <a href="#how-it-works">How it works</a>
+            <a href="#access">Access methods</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#about">About</a>
+
+            <a href="#emergency" class="mobile-emergency">
+                Emergency Access →
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-glow glow-one"></div>
+            <div class="hero-glow glow-two"></div>
+
+            <div class="container hero-grid">
+
+                <!-- LEFT -->
+
+                <div class="hero-content reveal">
+
+                    <div class="status-pill">
+
+                        <span class="pulse-dot"></span>
+
+                        <span>Built for critical moments</span>
+
+                    </div>
+
+
+                    <h1>
+                        Critical medical information,
+                        <span>when every second matters.</span>
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        When a person cannot communicate, emergency help
+                        should not depend on their smartphone, income,
+                        family, or technical knowledge.
+
+                    </p>
+
+
+                    <div class="hero-actions">
+
+    <a href="#emergency"
+       class="btn btn-primary">
+
+        Emergency Access
+
+        <span class="btn-arrow">→</span>
+
+    </a>
+
+    <a href="#patient"
+       class="btn btn-secondary">
+
+        Create Emergency Profile
+
+    </a>
+
+    <a href="hospital-dashboard.html"
+       class="btn btn-secondary">
+
+        🏥 Hospital Portal
+
+    </a>
+
+</div>
+
+
+                    <div class="hero-trust">
+
+                        <div class="trust-item">
+                            <span class="trust-icon">✓</span>
+                            No app required
+                        </div>
+
+                        <div class="trust-item">
+                            <span class="trust-icon">✓</span>
+                            Designed for everyone
+                        </div>
+
+                        <div class="trust-item">
+                            <span class="trust-icon">✓</span>
+                            Privacy-first
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RIGHT — EMERGENCY CARD -->
+
+                <div class="hero-visual reveal reveal-delay">
+
+                    <div class="visual-orbit orbit-one"></div>
+                    <div class="visual-orbit orbit-two"></div>
+
+
+                    <div class="emergency-card">
+
+                        <div class="card-top">
+
+                            <div>
+
+                                <span class="card-label">
+                                    EMERGENCY PROFILE
+                                </span>
+
+                                <h3>Patient identified</h3>
+
+                            </div>
+
+                            <div class="verified-badge">
+                                <span>✓</span>
+                                Verified
+                            </div>
+
+                        </div>
+
+
+                        <div class="patient-preview">
+
+                            <div class="patient-avatar">
+                                PK
+                            </div>
+
+                            <div>
+
+                               <strong>Emergency Profile</strong>
+<span>
+    Emergency ID · MED-XXXX-XX
+</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="critical-alert">
+
+                            <div class="alert-icon">!</div>
+
+                            <div>
+
+                                <small>CRITICAL ALLERGY</small>
+
+                                <strong>Critical allergy alert</strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="medical-grid">
+
+                            <div class="medical-item">
+
+                                <span>Blood group</span>
+                                <strong>—</strong>
+                            </div>
+
+                            <div class="medical-item">
+
+                                <span>Condition</span>
+                                <strong>Critical condition</strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card-contact">
+
+                            <div class="contact-icon">☎</div>
+
+                            <div>
+
+                                <span>Emergency contact</span>
+
+                                <strong>+91 ••••• ••421</strong>
+
+                            </div>
+
+                            <span class="contact-arrow">→</span>
+
+                        </div>
+
+
+                        <div class="access-status">
+
+                            <span class="live-dot"></span>
+
+                            Emergency access available
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Floating information cards -->
+
+                    <div class="floating-card floating-card-one">
+
+                        <div class="floating-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+                            <strong>Fast access</strong>
+                            <span>Critical information</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-card floating-card-two">
+
+                        <div class="floating-icon shield">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>Protected</strong>
+                            <span>Access is logged</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-scroll">
+
+                <span>Scroll to explore</span>
+
+                <div class="scroll-line">
+                    <span></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             TRUST STRIP
+        ========================== -->
+
+        <section class="trust-strip">
+
+            <div class="container trust-strip-inner">
+
+                <span>Designed around real-world emergencies</span>
+
+                <div class="trust-points">
+
+                    <div>
+                        <strong>01</strong>
+                        Smartphone optional
+                    </div>
+
+                    <div>
+                        <strong>02</strong>
+                        No app installation
+                    </div>
+
+                    <div>
+                        <strong>03</strong>
+                        Minimum necessary data
+                    </div>
+
+                    <div>
+                        <strong>04</strong>
+                        Emergency access logging
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PROBLEM SECTION
+        ========================== -->
+
+        <section class="section problem-section">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <span class="eyebrow">THE CHALLENGE</span>
+
+                    <h2>
+                        When the patient can't speak,
+                        <span>every detail matters.</span>
+                    </h2>
+
+                    <p>
+                        In an emergency, responders may not know who the
+                        patient is, what they are allergic to, what medication
+                        they take, or whom to contact.
+                    </p>
+
+                </div>
+
+
+                <div class="problem-grid">
+
+                    <article class="problem-card reveal">
+
+                        <div class="problem-number">01</div>
+
+                        <div class="problem-icon">?</div>
+
+                        <h3>Unknown identity</h3>
+
+                        <p>
+                            An unconscious patient may be unable to provide
+                            even basic identifying information.
+                        </p>
+
+                    </article>
+
+
+                    <article class="problem-card reveal reveal-delay">
+
+                        <div class="problem-number">02</div>
+
+                        <div class="problem-icon warning">!</div>
+
+                        <h3>Critical information missing</h3>
+
+                        <p>
+                            Allergies, conditions and medications may be
+                            unknown at the moment they matter most.
+                        </p>
+
+                    </article>
+
+
+                    <article class="problem-card reveal reveal-delay-2">
+
+                        <div class="problem-number">03</div>
+
+                        <div class="problem-icon contact">☎</div>
+
+                        <h3>No family nearby</h3>
+
+                        <p>
+                            A stranger may have no way to contact the
+                            patient's family or emergency contact.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             HOW IT WORKS
+        ========================== -->
+
+        <section class="section workflow-section"
+                 id="how-it-works">
+
+            <div class="container">
+
+                <div class="section-heading centered reveal">
+
+                    <span class="eyebrow">HOW IT WORKS</span>
+
+                    <h2>
+                        From uncertainty to
+                        <span>action in seconds.</span>
+                    </h2>
+
+                    <p>
+                        A simple emergency flow designed for people who
+                        may have never used the system before.
+                    </p>
+
+                </div>
+
+
+                <div class="workflow">
+
+                    <div class="workflow-line"></div>
+
+
+                    <div class="workflow-step reveal">
+
+                        <div class="step-number">01</div>
+
+                        <div class="step-icon">
+                            👤
+                        </div>
+
+                        <h3>Create a profile</h3>
+
+                        <p>
+                            Store essential emergency medical information
+                            and emergency contacts.
+                        </p>
+
+                    </div>
+
+
+                    <div class="workflow-step reveal reveal-delay">
+
+                        <div class="step-number">02</div>
+
+                        <div class="step-icon">
+                            🪪
+                        </div>
+
+                        <h3>Receive an ID</h3>
+
+                        <p>
+                            Get a unique Emergency ID that can be used
+                            through multiple access methods.
+                        </p>
+
+                    </div>
+
+
+                    <div class="workflow-step reveal reveal-delay-2">
+
+                        <div class="step-number">03</div>
+
+                        <div class="step-icon">
+                            📱
+                        </div>
+
+                        <h3>Helper accesses it</h3>
+
+                        <p>
+                            A stranger or responder can use QR, ID,
+                            SMS, IVR or a physical card.
+                        </p>
+
+                    </div>
+
+
+                    <div class="workflow-step reveal reveal-delay-3">
+
+                        <div class="step-number">04</div>
+
+                        <div class="step-icon">
+                            ❤️
+                        </div>
+
+                        <h3>Help starts faster</h3>
+
+                        <p>
+                            Only the information needed for immediate
+                            emergency assistance is shown.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ACCESS METHODS
+        ========================== -->
+
+        <section class="section access-section"
+                 id="access">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <span class="eyebrow">ACCESS FOR EVERYONE</span>
+
+                    <h2>
+                        No smartphone?
+                        <span>No problem.</span>
+                    </h2>
+
+                    <p>
+                        Emergency access should work across different
+                        devices, circumstances and socioeconomic backgrounds.
+                    </p>
+
+                </div>
+
+
+                <div class="access-grid">
+
+                    <article class="access-card featured reveal">
+
+                        <div class="access-card-icon">
+                            QR
+                        </div>
+
+                        <span class="access-tag">
+                            FASTEST
+                        </span>
+
+                        <h3>QR access</h3>
+
+                        <p>
+                            Scan the Emergency ID with any smartphone
+                            camera and open the secure web page.
+                        </p>
+
+                        <div class="access-flow">
+                            Scan → Verify → View
+                        </div>
+
+                    </article>
+
+
+                    <article class="access-card reveal reveal-delay">
+
+                        <div class="access-card-icon">
+                            SMS
+                        </div>
+
+                        <h3>SMS</h3>
+
+                        <p>
+                            A basic mobile phone can request critical
+                            information using the Emergency ID.
+                        </p>
+
+                        <div class="access-flow">
+                            ID → SMS → Information
+                        </div>
+
+                    </article>
+
+
+                    <article class="access-card reveal reveal-delay-2">
+
+                        <div class="access-card-icon">
+                            ☎
+                        </div>
+
+                        <h3>IVR</h3>
+
+                        <p>
+                            Call a dedicated number and enter the Emergency
+                            ID through the phone keypad.
+                        </p>
+
+                        <div class="access-flow">
+                            Call → Enter ID → Listen
+                        </div>
+
+                    </article>
+
+
+                    <article class="access-card reveal">
+
+                        <div class="access-card-icon">
+                            ID
+                        </div>
+
+                        <h3>Physical card</h3>
+
+                        <p>
+                            A simple emergency card can provide essential
+                            information even without digital access.
+                        </p>
+
+                        <div class="access-flow">
+                            Read → Identify → Help
+                        </div>
+
+                    </article>
+
+
+                    <article class="access-card reveal reveal-delay">
+
+                        <div class="access-card-icon">
+                            NFC
+                        </div>
+
+                        <h3>NFC</h3>
+
+                        <p>
+                            An optional NFC tag can provide quick contactless
+                            access from compatible devices.
+                        </p>
+
+                        <div class="access-flow">
+                            Tap → Verify → View
+                        </div>
+
+                    </article>
+
+
+                    <article class="access-card reveal reveal-delay-2">
+
+                        <div class="access-card-icon">
+                            🏥
+                        </div>
+
+                        <h3>Medical access</h3>
+
+                        <p>
+                            Verified healthcare professionals can access
+                            additional protected clinical information.
+                        </p>
+
+                        <div class="access-flow">
+                            Verify → Authorize → Access
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PRIVACY
+        ========================== -->
+
+        <section class="section privacy-section"
+                 id="privacy">
+
+            <div class="container privacy-grid">
+
+                <div class="privacy-content reveal">
+
+                    <span class="eyebrow">
+                        PRIVACY BY DESIGN
+                    </span>
+
+                    <h2>
+                        Emergency access
+                        <span>doesn't mean unlimited access.</span>
+                    </h2>
+
+                    <p>
+                        The system separates critical emergency information
+                        from protected medical records. Different users
+                        receive different levels of access.
+                    </p>
+
+
+                    <div class="privacy-features">
+
+                        <div class="privacy-feature">
+
+                            <div class="feature-check">✓</div>
+
+                            <div>
+                                <strong>Minimum necessary information</strong>
+                                <span>
+                                    Only critical information is shown to
+                                    an emergency helper.
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="privacy-feature">
+
+                            <div class="feature-check">✓</div>
+
+                            <div>
+                                <strong>Role-based access</strong>
+                                <span>
+                                    Medical professionals can access
+                                    additional protected information.
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="privacy-feature">
+
+                            <div class="feature-check">✓</div>
+
+                            <div>
+                                <strong>Access is logged</strong>
+                                <span>
+                                    Emergency access events are recorded
+                                    for accountability.
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="privacy-feature">
+
+                            <div class="feature-check">✓</div>
+
+                            <div>
+                                <strong>Temporary access</strong>
+                                <span>
+                                    Emergency access can automatically
+                                    expire after a defined period.
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="privacy-visual reveal reveal-delay">
+
+                    <div class="access-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span>ACCESS LEVEL</span>
+                                <strong>Emergency helper</strong>
+                            </div>
+
+                            <div class="panel-status">
+                                Active
+                            </div>
+
+                        </div>
+
+
+                        <div class="permission allowed">
+                            <span>✓</span>
+                            Critical allergies
+                        </div>
+
+                        <div class="permission allowed">
+                            <span>✓</span>
+                            Blood group
+                        </div>
+
+                        <div class="permission allowed">
+                            <span>✓</span>
+                            Critical conditions
+                        </div>
+
+                        <div class="permission allowed">
+                            <span>✓</span>
+                            Emergency contact
+                        </div>
+
+                        <div class="permission restricted">
+                            <span>×</span>
+                            Full medical history
+                        </div>
+
+                        <div class="permission restricted">
+                            <span>×</span>
+                            Detailed clinical records
+                        </div>
+
+
+                        <div class="access-timer">
+
+                            <div class="timer-top">
+
+                                <span>Access expires</span>
+
+                                <strong id="accessTimer">
+                                    14:32
+                                </strong>
+
+                            </div>
+
+                            <div class="timer-bar">
+                                <span></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             EMERGENCY CTA
+        ========================== -->
+
+        <section class="emergency-cta"
+                 id="emergency">
+
+            <div class="cta-grid"></div>
+
+            <div class="container cta-content reveal">
+
+                <div class="cta-icon">
+                    !
+                </div>
+
+                <span class="eyebrow">
+                    EMERGENCY ACCESS
+                </span>
+
+                <h2>
+                    Have an Emergency ID?
+                </h2>
+
+                <p>
+                    Enter the ID to access critical emergency information.
+                    No account or app installation required.
+                </p>
+
+
+                <form class="emergency-search"
+                      id="emergencyForm">
+
+                    <div class="input-wrapper">
+
+                        <span class="input-prefix">
+                            EID
+                        </span>
+
+                        <input
+                            type="text"
+                            id="emergencyId"
+                            placeholder="Enter Emergency ID"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-light">
+
+                        Access Information
+                        <span>→</span>
+
+                    </button>
+
+                </form>
+
+
+                <div class="cta-help">
+
+                    <span>Or</span>
+
+                    <button type="button"
+                            id="scanDemoBtn">
+
+                        Scan a QR code
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PATIENT CTA
+        ========================== -->
+
+        <section class="section patient-section"
+                 id="patient">
+
+            <div class="container patient-banner reveal">
+
+                <div>
+
+                    <span class="eyebrow">
+                        FOR PATIENTS
+                    </span>
+
+                    <h2>
+                        Make your critical information
+                        available when you can't speak.
+                    </h2>
+
+                    <p>
+                        Create your emergency profile and receive your
+                        unique Emergency ID.
+                    </p>
+
+                </div>
+
+
+                <a href="patient-register.html"
+                   class="btn btn-primary">
+
+                    Create Emergency Profile
+                    <span>→</span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer class="site-footer"
+                id="about">
+
+            <div class="container footer-grid">
+
+                <div class="footer-brand">
+
+                    <a href="#" class="brand">
+
+                        <div class="brand-icon">
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="brand-text">
+                            <strong>MedAccess</strong>
+                            <small>Emergency Information</small>
+                        </div>
+
+                    </a>
+
+                    <p>
+                        Making critical emergency medical information
+                        more accessible, inclusive and secure.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>Platform</h4>
+
+                    <a href="#how-it-works">How it works</a>
+                    <a href="#access">Access methods</a>
+                    <a href="#privacy">Privacy</a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>Access</h4>
+
+                    <a href="#emergency">Emergency Access</a>
+                    <a href="#patient">Patient Portal</a>
+                    <a href="#">Medical Professional</a>
+                    <a href="hospital-dashboard.html">Hospital</a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>Important</h4>
+
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Security</a>
+
+                </div>
+
+            </div>
+
+
+            <div class="container footer-bottom">
+
+                <span>
+                    © 2026 MedAccess. Prototype for demonstration purposes.
+                </span>
+
+                <span>
+                    Emergency services should always be contacted in a
+                    life-threatening situation.
+                </span>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+
+    <script src="js/main.js"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const scanButton = document.getElementById("scanDemoBtn");
+
+    if (!scanButton) return;
+
+    scanButton.addEventListener("click", function () {
+
+        // Create scanner overlay
+        const overlay = document.createElement("div");
+
+        overlay.id = "qrScannerOverlay";
+
+        overlay.innerHTML = `
+            <div style="
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,.92);
+                z-index:99999;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:20px;
+            ">
+                <div style="
+                    width:100%;
+                    max-width:450px;
+                    background:white;
+                    border-radius:20px;
+                    padding:20px;
+                    text-align:center;
+                ">
+                    <h2 style="margin-bottom:8px;">
+                        Scan Emergency QR
+                    </h2>
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:15px;
+                    ">
+                        Point your camera at the patient's
+                        MedAccess QR code.
+                    </p>
+
+                    <div id="qr-reader" style="width:100%;"></div>
+
+                    <button id="closeQRScanner" style="
+                        margin-top:15px;
+                        padding:12px 20px;
+                        border:none;
+                        border-radius:10px;
+                        background:#111827;
+                        color:white;
+                        font-weight:700;
+                        cursor:pointer;
+                    ">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const scanner = new Html5Qrcode("qr-reader");
+
+        function stopScanner() {
+            scanner.stop()
+                .catch(() => {})
+                .finally(() => {
+                    overlay.remove();
+                });
+        }
+
+        document
+            .getElementById("closeQRScanner")
+            .addEventListener("click", stopScanner);
+
+        scanner.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
+            },
+            function(decodedText) {
+
+                console.log(
+                    "QR detected:",
+                    decodedText
+                );
+
+                // Stop camera
+                scanner.stop()
+                    .catch(() => {})
+                    .finally(() => {
+
+                        overlay.remove();
+
+                        try {
+
+                            const url =
+                                new URL(decodedText);
+
+                            const emergencyId =
+                                url.searchParams.get("id");
+
+                            if (emergencyId) {
+
+                                window.location.href =
+                                    "emergency.html?id=" +
+                                    encodeURIComponent(
+                                        emergencyId
+                                    );
+
+                                return;
+                            }
+
+                        } catch (error) {
+
+                            console.error(
+                                "Invalid QR URL:",
+                                error
+                            );
+                        }
+
+                        // If QR contains only Emergency ID
+                        if (
+                            /^MED-[A-Z0-9-]+$/i
+                                .test(decodedText.trim())
+                        ) {
+
+                            window.location.href =
+                                "emergency.html?id=" +
+                                encodeURIComponent(
+                                    decodedText.trim()
+                                );
+
+                            return;
+                        }
+
+                        alert(
+                            "This is not a valid MedAccess Emergency QR."
+                        );
+                    });
+            },
+            function(errorMessage) {
+                // Ignore continuous scanning errors
+            }
+        )
+        .catch(function(error) {
+
+            console.error(
+                "Camera error:",
+                error
+            );
+
+            overlay.remove();
+
+            alert(
+                "Unable to access the camera. Please allow camera permission and try again."
+            );
+        });
+
+    });
+
+});
+</script>
+
+</body>
+</html>

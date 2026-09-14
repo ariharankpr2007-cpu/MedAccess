@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Dashboard | MedAccess</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* =========================================================
+           PATIENT DASHBOARD
+           ========================================================= */
+
+        .dashboard-page {
+            min-height: 100vh;
+            background: #f6f9fc;
+            padding-top: 90px;
+        }
+
+        .dashboard-container {
+            width: min(1180px, 92%);
+            margin: auto;
+            padding: 40px 0 70px;
+        }
+
+        /* Header */
+
+        .dashboard-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-heading h1 {
+            margin: 0 0 7px;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: #111827;
+        }
+
+        .dashboard-heading p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 999px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+            font-size: .85rem;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: statusPulse 1.5s infinite;
+        }
+
+        @keyframes statusPulse {
+            50% {
+                transform: scale(1.5);
+                opacity: .5;
+            }
+        }
+
+        /* Main grid */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.4fr .8fr;
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 22px;
+            box-shadow: 0 12px 40px rgba(15,23,42,.07);
+        }
+
+        /* Emergency ID */
+
+        .id-card {
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            border: none;
+        }
+
+        .id-card::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            right: -80px;
+            top: -120px;
+        }
+
+        .id-card::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 50%;
+            right: 20px;
+            bottom: -100px;
+        }
+
+        .id-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .id-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .id-top small {
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            font-weight: 700;
+        }
+
+        .id-top h2 {
+            margin: 8px 0 25px;
+            font-size: 2rem;
+            letter-spacing: .08em;
+        }
+
+        .id-badge {
+            padding: 7px 11px;
+            border-radius: 9px;
+            background: rgba(34,197,94,.13);
+            color: #86efac;
+            border: 1px solid rgba(134,239,172,.18);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .id-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-button {
+            border: none;
+            cursor: pointer;
+            padding: 11px 16px;
+            border-radius: 11px;
+            font: inherit;
+            font-weight: 800;
+            transition: .3s ease;
+        }
+
+        .dashboard-button.primary {
+            background: white;
+            color: #0f172a;
+        }
+
+        .dashboard-button.secondary {
+            background: rgba(255,255,255,.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,.12);
+        }
+
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* QR */
+
+        .qr-card {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .qr-card h3 {
+            margin: 0 0 7px;
+            color: #111827;
+        }
+
+        .qr-card p {
+            margin: 0 0 20px;
+            color: #64748b;
+            font-size: .88rem;
+        }
+
+        .qr-box {
+            width: 165px;
+            height: 165px;
+            margin: auto;
+            padding: 12px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 25px rgba(15,23,42,.08);
+        }
+
+        .qr-pattern {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 3px;
+        }
+
+        .qr-pattern span {
+            background: #111827;
+            border-radius: 1px;
+        }
+
+        .qr-pattern span:nth-child(3n),
+        .qr-pattern span:nth-child(7n),
+        .qr-pattern span:nth-child(11n) {
+            background: transparent;
+        }
+
+        .qr-note {
+            margin-top: 15px !important;
+            font-size: .76rem !important;
+        }
+
+        /* Welcome card */
+
+        .welcome-card {
+            padding: 25px;
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .patient-welcome {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg,#2563eb,#06b6d4);
+        }
+
+        .patient-welcome h3 {
+            margin: 0 0 5px;
+            color: #111827;
+        }
+
+        .patient-welcome p {
+            margin: 0;
+            color: #64748b;
+            font-size: .88rem;
+        }
+
+        .edit-profile {
+            color: #2563eb;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: .9rem;
+        }
+
+        /* Medical overview */
+
+        .section-card {
+            margin-top: 22px;
+            padding: 28px;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .card-heading h3 {
+            margin: 0;
+            color: #111827;
+        }
+
+        .card-heading span {
+            color: #64748b;
+            font-size: .8rem;
+        }
+
+        .medical-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .overview-item {
+            padding: 18px;
+            border-radius: 15px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            transition: .3s ease;
+        }
+
+        .overview-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(15,23,42,.06);
+        }
+
+        .overview-icon {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .overview-item small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .overview-item strong {
+            color: #111827;
+            font-size: .95rem;
+        }
+
+        .danger-text {
+            color: #dc2626 !important;
+        }
+
+        /* Access activity */
+
+        .activity-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #f8fafc;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: #e0f2fe;
+            display: grid;
+            place-items: center;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info strong {
+            display: block;
+            color: #334155;
+            font-size: .9rem;
+        }
+
+        .activity-info small {
+            color: #94a3b8;
+        }
+
+        .activity-time {
+            color: #64748b;
+            font-size: .75rem;
+        }
+
+        /* Security card */
+
+        .security-card {
+            margin-top: 22px;
+            padding: 25px;
+            background: linear-gradient(135deg,#eff6ff,#f8fafc);
+            border: 1px solid #dbeafe;
+            border-radius: 20px;
+        }
+
+        .security-card h3 {
+            margin: 0 0 7px;
+            color: #1e3a8a;
+        }
+
+        .security-card p {
+            margin: 0;
+            color: #64748b;
+            line-height: 1.6;
+            font-size: .88rem;
+        }
+
+        .security-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .security-feature {
+            padding: 8px 12px;
+            border-radius: 9px;
+            background: white;
+            border: 1px solid #dbeafe;
+            color: #334155;
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        /* Toast */
+
+        .dashboard-toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #0f172a;
+            color: white;
+            padding: 14px 18px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: .35s ease;
+            z-index: 9999;
+        }
+
+        .dashboard-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 900px) {
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .medical-overview {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            .dashboard-page {
+                padding-top: 75px;
+            }
+
+            .dashboard-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .dashboard-heading,
+            .dashboard-container {
+                width: 94%;
+            }
+
+            .id-card,
+            .section-card {
+                padding: 22px;
+            }
+
+            .id-top {
+                flex-direction: column;
+            }
+
+            .welcome-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .medical-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .id-actions {
+                flex-direction: column;
+            }
+
+            .id-actions .dashboard-button {
+                width: 100%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="site-header">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-mark">+</span>
+                <span>MedAccess</span>
+            </a>
+
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="emergency.html">Emergency View</a>
+                <a href="#" id="patientLogout">Logout</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="dashboard-page">
+
+        <div class="dashboard-container">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="dashboard-heading">
+
+                <div>
+                    <h1>Patient Dashboard</h1>
+
+                    <p>
+                        Manage your emergency medical profile and access settings.
+                    </p>
+                </div>
+
+                <div class="profile-status">
+                    <span class="status-dot"></span>
+                    Profile Active
+                </div>
+
+            </div>
+
+
+            <!-- MAIN DASHBOARD -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- EMERGENCY ID -->
+
+                <section class="dashboard-card id-card">
+
+                    <div class="id-content">
+
+                        <div class="id-top">
+
+                            <div>
+
+                                <small>Your Emergency ID</small>
+
+                                <h2>MED-4829-71</h2>
+
+                            </div>
+
+                            <div class="id-badge">
+                                ✓ VERIFIED
+                            </div>
+
+                        </div>
+
+
+                        <div class="id-actions">
+
+                            <button
+                                class="dashboard-button primary"
+                                id="copyId">
+
+                                Copy Emergency ID
+
+                            </button>
+
+                            <a
+                                href="emergency.html"
+                                class="dashboard-button secondary"
+                                style="text-decoration:none;">
+
+                                View Emergency Profile
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- QR -->
+
+                <section class="dashboard-card qr-card">
+
+                    <h3>Emergency QR</h3>
+
+                    <p>
+                        Scan this code to open your emergency profile.
+                    </p>
+
+
+                    <!-- Demo QR -->
+
+                    <div class="qr-box" id="qrBox">
+                       <div id="qrcode"></div>
+                    </div>
+
+                    <p class="qr-note">
+                        Keep your QR card accessible during emergencies.
+                    </p>
+
+                </section>
+
+            </div>
+
+
+            <!-- PATIENT WELCOME -->
+
+            <section class="dashboard-card welcome-card">
+
+                <div class="patient-welcome">
+
+                    <div class="dashboard-avatar">
+                        RK
+                    </div>
+
+                    <div>
+
+                        <h3>Welcome, Ravi Kumar</h3>
+
+                        <p>
+                            Your emergency profile is ready to be accessed when needed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="patient-edit.html"
+                    class="edit-profile">
+
+                    Edit Profile →
+
+                </a>
+
+            </section>
+
+
+            <!-- MEDICAL OVERVIEW -->
+
+            <section class="dashboard-card section-card">
+
+                <div class="card-heading">
+
+                    <h3>Critical Medical Information</h3>
+
+                    <span>Last updated: Today</span>
+
+                </div>
+
+
+                <div class="medical-overview">
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-icon">
+                            🩸
+                        </div>
+
+                        <small>Blood Group</small>
+
+                        <strong>O Positive</strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-icon">
+                            ⚠️
+                        </div>
+
+                        <small>Allergy</small>
+
+                        <strong class="danger-text">
+                            Penicillin
+                        </strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-icon">
+                            ❤️
+                        </div>
+
+                        <small>Condition</small>
+
+                        <strong>
+                            Type 2 Diabetes
+                        </strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-icon">
+                            💊
+                        </div>
+
+                        <small>Medication</small>
+
+                        <strong>
+                            Metformin
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACCESS ACTIVITY -->
+
+            <section class="dashboard-card section-card">
+
+                <div class="card-heading">
+
+                    <h3>Recent Emergency Access</h3>
+
+                    <span>Security activity</span>
+
+                </div>
+
+
+                <div
+    class="activity-list"
+    id="activityList">
+
+    <div class="activity-item">
+
+        <div class="activity-icon">
+            ⏳
+        </div>
+
+        <div class="activity-info">
+
+            <strong>
+                Loading access history...
+            </strong>
+
+            <small>
+                Please wait
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+            </section>
+
+
+            <!-- SECURITY -->
+
+            <section class="security-card">
+
+                <h3>🛡 Your information is protected</h3>
+
+                <p>
+                    Only essential emergency information is visible by default.
+                    Detailed medical records require controlled emergency access,
+                    and access activity is recorded for accountability.
+                </p>
+
+
+                <div class="security-features">
+
+                    <div class="security-feature">
+                        🔐 Protected Records
+                    </div>
+
+                    <div class="security-feature">
+                        ⏱ Temporary Access
+                    </div>
+
+                    <div class="security-feature">
+                        📋 Access Logs
+                    </div>
+
+                    <div class="security-feature">
+                        🚫 No Medical Data in QR
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="dashboard-toast"
+        id="dashboardToast">
+
+        ✓ Emergency ID copied
+
+    </div>
+
+
+    <script src="js/main.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const logoutButton = document.getElementById("patientLogout");
+
+    try {
+        const response = await fetch("backend/patient-session.php");
+        const result = await response.json();
+
+        if (!result.success) {
+            localStorage.removeItem("emergency_id");
+            localStorage.removeItem("user_id");
+            window.location.href = "patient-login.html";
+            return;
+        }
+
+        const profile = result.profile;
+
+        localStorage.setItem("emergency_id", profile.emergency_id);
+        localStorage.setItem("user_id", profile.user_id);
+
+        updateDashboardProfile(profile);
+
+        if (logoutButton) {
+            logoutButton.style.display = "inline";
+            logoutButton.addEventListener("click", async function (event) {
+                event.preventDefault();
+                try { await fetch("backend/patient-logout.php"); } catch (e) {}
+                localStorage.removeItem("emergency_id");
+                localStorage.removeItem("user_id");
+                window.location.href = "patient-login.html";
+            });
+        }
+
+    } catch (error) {
+        console.error("Patient session verification failed:", error);
+        window.location.href = "patient-login.html";
+    }
+});
+
+function updateDashboardProfile(profile) {
+    const idHeading = document.querySelector(".id-top h2");
+    if (idHeading) idHeading.textContent = profile.emergency_id;
+
+    const welcomeHeading = document.querySelector(".patient-welcome h3");
+    if (welcomeHeading) welcomeHeading.textContent = "Welcome, " + profile.full_name;
+
+    const avatar = document.querySelector(".dashboard-avatar");
+    if (avatar) avatar.textContent = getInitials(profile.full_name);
+
+    const overviewItems = document.querySelectorAll(".overview-item");
+
+    if (overviewItems.length >= 4) {
+        overviewItems[0].querySelector("strong").textContent = profile.blood_group || "Not provided";
+        overviewItems[1].querySelector("strong").textContent = profile.allergies || "None reported";
+        overviewItems[2].querySelector("strong").textContent = profile.medical_conditions || "None reported";
+        overviewItems[3].querySelector("strong").textContent = profile.critical_medications || "None reported";
+    }
+
+    const emergencyLinks = document.querySelectorAll('a[href*="emergency.html"]');
+
+emergencyLinks.forEach(function (link) {
+    link.href =
+        "emergency.html?id=" +
+        encodeURIComponent(profile.emergency_id);
+});
+
+    const lastUpdated = document.querySelector(".card-heading span");
+    if (lastUpdated && profile.updated_at) {
+        const date = new Date(profile.updated_at);
+        if (!isNaN(date)) lastUpdated.textContent = "Last updated: " + date.toLocaleDateString();
+    }
+}
+
+function getInitials(name) {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return name.substring(0,2).toUpperCase();
+}
+</script>
+
+
+    <script>
+
+        /* =========================================================
+           COPY EMERGENCY ID
+           ========================================================= */
+
+        const copyId =
+            document.getElementById("copyId");
+
+        const dashboardToast =
+            document.getElementById("dashboardToast");
+
+
+        copyId.addEventListener("click", async () => {
+
+            const emergencyId = localStorage.getItem("emergency_id") || "";
+
+            try {
+
+                await navigator.clipboard.writeText(emergencyId);
+
+            } catch (error) {
+
+                console.log("Clipboard unavailable");
+
+            }
+
+            dashboardToast.classList.add("show");
+
+            setTimeout(() => {
+
+                dashboardToast.classList.remove("show");
+
+            }, 2200);
+
+        });
+
+
+        
+
+/* =========================================================
+   REAL EMERGENCY QR CODE
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const emergencyId =
+        localStorage.getItem("emergency_id");
+
+
+    if (!emergencyId) {
+
+        console.error(
+            "Emergency ID not found."
+        );
+
+        return;
+
+    }
+
+
+    const qrContainer =
+        document.getElementById("qrcode");
+
+
+    if (!qrContainer) {
+
+        return;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Build emergency profile URL
+    |--------------------------------------------------------------------------
+    */
+
+    const emergencyUrl =
+        window.location.origin +
+        window.location.pathname
+            .replace(
+                "patient-dashboard.html",
+                "emergency.html"
+            ) +
+        "?id=" +
+        encodeURIComponent(
+            emergencyId
+        );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generate QR
+    |--------------------------------------------------------------------------
+    */
+
+    new QRCode(
+        qrContainer,
+        {
+            text: emergencyUrl,
+
+            width: 135,
+
+            height: 135,
+
+            colorDark: "#111827",
+
+            colorLight: "#ffffff",
+
+            correctLevel:
+                QRCode.CorrectLevel.H
+        }
+    );
+
+
+    console.log(
+        "Emergency QR URL:",
+        emergencyUrl
+    );
+
+});
+
+
+    </script>
+
+    <script>
+
+async function loadAccessHistory() {
+
+    const emergencyId =
+        localStorage.getItem("emergency_id");
+
+
+    if (!emergencyId) {
+        return;
+    }
+
+
+    const activityList =
+        document.getElementById("activityList");
+
+
+    if (!activityList) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/get-access-history.php?emergency_id=" +
+                encodeURIComponent(emergencyId)
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            activityList.innerHTML = `
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+                        ⚠️
+                    </div>
+
+                    <div class="activity-info">
+
+                        <strong>
+                            Unable to load access history
+                        </strong>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const history =
+            result.history;
+
+
+        if (history.length === 0) {
+
+            activityList.innerHTML = `
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+                        🛡️
+                    </div>
+
+                    <div class="activity-info">
+
+                        <strong>
+                            No emergency activity yet
+                        </strong>
+
+                        <small>
+                            Access activity will appear here.
+                        </small>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        activityList.innerHTML = "";
+
+
+        history.forEach(event => {
+
+            const date =
+                new Date(event.timestamp);
+
+
+            const formattedDate =
+                isNaN(date)
+                    ? event.timestamp
+                    : date.toLocaleString();
+
+
+            let icon = "🛡️";
+
+
+            if (event.method === "SMS") {
+                icon = "📨";
+            }
+
+            else if (event.method === "IVR") {
+                icon = "☎️";
+            }
+
+            else if (event.accessor === "PARAMEDIC") {
+                icon = "🚑";
+            }
+
+            else if (
+                event.accessor ===
+                "HOSPITAL_STAFF"
+            ) {
+                icon = "🏥";
+            }
+
+            else if (
+                event.accessor ===
+                "DOCTOR"
+            ) {
+                icon = "👨‍⚕️";
+            }
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "activity-item";
+
+
+            item.innerHTML = `
+
+                <div class="activity-icon">
+                    ${icon}
+                </div>
+
+
+                <div class="activity-info">
+
+                    <strong>
+                        ${event.title}
+                    </strong>
+
+                    <small>
+                        ${event.accessor || "System"}
+                        ${event.method
+                            ? " • " + event.method
+                            : ""}
+                        ${event.reason
+                            ? " • " + event.reason
+                            : ""}
+                    </small>
+
+                </div>
+
+
+                <div class="activity-time">
+
+                    ${formattedDate}
+
+                    <br>
+
+                    <span style="
+                        font-weight:700;
+                        font-size:.72rem;
+                    ">
+                        ${event.status}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            activityList.appendChild(item);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Access history error:",
+            error
+        );
+
+    }
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadAccessHistory
+);
+
+</script>
+
+</body>
+</html>

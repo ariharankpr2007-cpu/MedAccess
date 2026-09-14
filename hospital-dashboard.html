@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Dashboard | MedAccess</title>
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+    background:#F4F7FB;
+}
+
+.dashboard{
+    width:min(1200px,92%);
+    margin:auto;
+    padding:90px 0 40px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.search-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.search-box input{
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #CBD5E1;
+}
+
+.search-box button{
+    padding:14px 22px;
+    border:none;
+    border-radius:12px;
+    background:#2563EB;
+    color:white;
+    font-weight:bold;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+.patient{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    background:#DBEAFE;
+    display:grid;
+    place-items:center;
+    font-size:24px;
+    font-weight:bold;
+    color:#1D4ED8;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:20px;
+    background:#FEE2E2;
+    color:#B91C1C;
+    font-size:.75rem;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.info{
+    padding:14px;
+    border-radius:12px;
+    background:#F8FAFC;
+}
+
+.info span{
+    display:block;
+    font-size:.72rem;
+    color:#64748B;
+}
+
+.timeline-item{
+    border-left:3px solid #2563EB;
+    padding-left:12px;
+    margin:14px 0;
+}
+
+.ready{
+    background:#DCFCE7;
+    color:#166534;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+@media(max-width:900px){
+
+.grid{
+    grid-template-columns:1fr;
+}
+
+.info-grid{
+    grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+/>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+</head>
+<body>
+
+<div class="dashboard">
+
+<div class="topbar">
+
+<div>
+<h1>🏥 Hospital Emergency Dashboard</h1>
+<p>Prepare emergency treatment before patient arrival.</p>
+</div>
+
+<div id="hospitalName">City General Hospital</div>
+
+</div>
+
+<div class="search-box">
+<input id="emergencyId" placeholder="Enter Emergency ID (MED-9713-59)">
+<button onclick="loadPatient()">Find Patient</button>
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="patient">
+
+<div class="avatar" id="avatar">--</div>
+
+<div>
+<h2 id="patientName">No Patient Selected</h2>
+<p id="patientId">Emergency ID</p>
+<div class="badge">Critical Emergency</div>
+</div>
+
+</div>
+
+<div class="info-grid">
+
+<div class="info">
+<span>Blood Group</span>
+<strong id="blood">--</strong>
+</div>
+
+<div class="info">
+<span>Critical Allergy</span>
+<strong id="allergy">--</strong>
+</div>
+
+<div class="info">
+<span>Medical Condition</span>
+<strong id="condition">--</strong>
+</div>
+
+<div class="info">
+<span>Medication</span>
+<strong id="medication">--</strong>
+</div>
+
+</div>
+
+<div class="ready">
+🟢 Trauma team can begin preparation immediately.
+</div>
+
+</div>
+
+<div class="card">
+
+    <h3>🚨 Incoming Emergency</h3>
+
+    <div id="incomingCases">
+
+        <div style="
+            padding:20px;
+            text-align:center;
+            color:#64748B;
+        ">
+            Loading emergency cases...
+        </div>
+
+    </div>
+    <div
+    id="completedCases"
+    style="
+        margin-top:24px;
+        padding-top:20px;
+        border-top:1px solid #E2E8F0;
+    "
+></div>
+
+</div>
+
+<div
+    class="card"
+    style="
+        margin-top:20px;
+        grid-column:1/-1;
+    "
+>
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:15px;
+        margin-bottom:15px;
+        flex-wrap:wrap;
+    ">
+
+        <div>
+            <h3 style="margin:0;">
+                🚑 Live Ambulance Tracking
+            </h3>
+
+            <p
+                id="hospitalTrackingCase"
+                style="
+                    margin:5px 0 0;
+                    color:#64748B;
+                "
+            >
+                Waiting for an active emergency case...
+            </p>
+        </div>
+
+        <span
+            id="hospitalTrackingStatus"
+            style="
+                padding:7px 12px;
+                border-radius:20px;
+                background:#FEF3C7;
+                color:#92400E;
+                font-size:13px;
+                font-weight:700;
+            "
+        >
+            ● WAITING
+        </span>
+
+    </div>
+
+
+    <div
+        id="ambulanceMap"
+        style="
+            width:100%;
+            height:400px;
+            border-radius:16px;
+            overflow:hidden;
+            background:#E2E8F0;
+        "
+    ></div>
+
+
+    <div
+        style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:12px;
+            margin-top:15px;
+        "
+    >
+
+        <div style="
+            padding:14px;
+            border-radius:12px;
+            background:#F8FAFC;
+        ">
+            <small style="color:#64748B;">
+                Case ID
+            </small>
+
+            <strong
+                id="trackingCaseId"
+                style="
+                    display:block;
+                    margin-top:5px;
+                "
+            >
+                —
+            </strong>
+        </div>
+
+
+        <div style="
+            padding:14px;
+            border-radius:12px;
+            background:#F8FAFC;
+        ">
+            <small style="color:#64748B;">
+                Last Update
+            </small>
+
+            <strong
+                id="trackingLastUpdate"
+                style="
+                    display:block;
+                    margin-top:5px;
+                "
+            >
+                —
+            </strong>
+        </div>
+
+
+        <div style="
+            padding:14px;
+            border-radius:12px;
+            background:#F8FAFC;
+        ">
+            <small style="color:#64748B;">
+                Tracking
+            </small>
+
+            <strong
+                id="trackingLiveText"
+                style="
+                    display:block;
+                    margin-top:5px;
+                "
+            >
+                Waiting
+            </strong>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadPatient(){
+
+const id=document.getElementById("emergencyId").value.trim();
+
+if(!id){
+alert("Enter Emergency ID");
+return;
+}
+
+const res=await fetch(
+"backend/get-profile.php?emergency_id="+encodeURIComponent(id)
+);
+
+const data=await res.json();
+
+if(!data.success){
+alert("Patient not found");
+return;
+}
+
+const p=data.profile;
+
+document.getElementById("patientName").textContent=p.full_name;
+document.getElementById("patientId").textContent=p.emergency_id;
+document.getElementById("blood").textContent=p.blood_group;
+document.getElementById("allergy").textContent=p.allergies;
+document.getElementById("condition").textContent=p.medical_conditions;
+document.getElementById("medication").textContent=p.critical_medications;
+
+const names=p.full_name.split(" ");
+let initials=names[0][0];
+
+if(names.length>1){
+initials+=names[names.length-1][0];
+}
+
+document.getElementById("avatar").textContent=initials.toUpperCase();
+
+}
+
+/* =========================================================
+   HOSPITAL LIVE AMBULANCE TRACKING
+   ========================================================= */
+
+let hospitalMap = null;
+let ambulanceMarker = null;
+let ambulanceTrackingTimer = null;
+let hospitalTrackingCaseId = null;
+
+
+/* ---------------------------------------------------------
+   Initialize Map
+   --------------------------------------------------------- */
+
+function initializeAmbulanceMap() {
+
+    hospitalMap = new maplibregl.Map({
+
+        container: "ambulanceMap",
+
+        style:
+            "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+
+        center: [80.2707, 13.0827],
+
+        zoom: 12
+
+    });
+
+    hospitalMap.addControl(
+        new maplibregl.NavigationControl(),
+        "top-right"
+    );
+}
+
+
+/* ---------------------------------------------------------
+   Start tracking a case
+   --------------------------------------------------------- */
+
+function startHospitalAmbulanceTracking(caseId) {
+
+    if (!caseId) {
+        return;
+    }
+
+    hospitalTrackingCaseId = caseId;
+
+    document.getElementById(
+        "hospitalTrackingCase"
+    ).textContent =
+        "Case: " + caseId;
+
+    document.getElementById(
+        "trackingCaseId"
+    ).textContent =
+        caseId;
+
+    document.getElementById(
+        "hospitalTrackingStatus"
+    ).textContent =
+        "● CONNECTING";
+
+    document.getElementById(
+        "trackingLiveText"
+    ).textContent =
+        "Connecting...";
+
+
+    if (!hospitalMap) {
+        initializeAmbulanceMap();
+    }
+
+
+    if (ambulanceTrackingTimer) {
+        clearInterval(
+            ambulanceTrackingTimer
+        );
+    }
+
+
+    updateHospitalAmbulanceLocation();
+
+
+    ambulanceTrackingTimer =
+        setInterval(
+            updateHospitalAmbulanceLocation,
+            5000
+        );
+}
+
+
+/* ---------------------------------------------------------
+   Get latest ambulance location
+   --------------------------------------------------------- */
+
+async function updateHospitalAmbulanceLocation() {
+
+    if (!hospitalTrackingCaseId) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/get-ambulance-location.php?case_id=" +
+                encodeURIComponent(
+                    hospitalTrackingCaseId
+                )
+            );
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            document.getElementById(
+                "hospitalTrackingStatus"
+            ).textContent =
+                "● WAITING";
+
+            document.getElementById(
+                "trackingLiveText"
+            ).textContent =
+                "Waiting for GPS";
+
+            return;
+        }
+
+
+        const latitude =
+            Number(data.latitude);
+
+        const longitude =
+            Number(data.longitude);
+
+
+        const position = [
+            longitude,
+            latitude
+        ];
+
+
+        /* -------------------------------------------------
+           Create ambulance marker
+           ------------------------------------------------- */
+
+        if (!ambulanceMarker) {
+
+            const markerElement =
+                document.createElement("div");
+
+            markerElement.innerHTML = "🚑";
+
+            markerElement.style.fontSize =
+                "32px";
+
+            markerElement.style.width =
+                "40px";
+
+            markerElement.style.height =
+                "40px";
+
+            markerElement.style.display =
+                "flex";
+
+            markerElement.style.alignItems =
+                "center";
+
+            markerElement.style.justifyContent =
+                "center";
+
+
+            ambulanceMarker =
+                new maplibregl.Marker({
+                    element: markerElement
+                })
+                .setLngLat(position)
+                .addTo(hospitalMap);
+
+        } else {
+
+            ambulanceMarker.setLngLat(
+                position
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           Move map to ambulance
+           ------------------------------------------------- */
+
+        hospitalMap.easeTo({
+
+            center: position,
+
+            duration: 1000,
+
+            zoom: 15
+
+        });
+
+
+        /* -------------------------------------------------
+           Update status
+           ------------------------------------------------- */
+
+        document.getElementById(
+            "hospitalTrackingStatus"
+        ).textContent =
+            "● LIVE";
+
+        document.getElementById(
+            "trackingLiveText"
+        ).textContent =
+            "Live";
+
+        document.getElementById(
+            "trackingLastUpdate"
+        ).textContent =
+            data.recorded_at;
+
+
+    } catch (error) {
+
+        console.error(
+            "Hospital tracking error:",
+            error
+        );
+
+        document.getElementById(
+            "hospitalTrackingStatus"
+        ).textContent =
+            "● CONNECTION ERROR";
+
+        document.getElementById(
+            "trackingLiveText"
+        ).textContent =
+            "Connection error";
+
+    }
+}
+async function loadIncomingCases() {
+
+    const container =
+        document.getElementById("incomingCases");
+        function getStatusDisplay(status) {
+
+    const statusMap = {
+        "IN_TRANSIT": {
+            label: "IN TRANSIT",
+            icon: "🚑",
+            background: "#DBEAFE",
+            color: "#1D4ED8"
+        },
+
+        "RECEIVED": {
+            label: "RECEIVED",
+            icon: "🏥",
+            background: "#E0E7FF",
+            color: "#4338CA"
+        },
+
+        "PREPARING": {
+            label: "PREPARING",
+            icon: "🩺",
+            background: "#FEF3C7",
+            color: "#92400E"
+        },
+
+                "READY": {
+            label: "READY",
+            icon: "✅",
+            background: "#DCFCE7",
+            color: "#166534"
+        },
+
+        "COMPLETED": {
+            label: "COMPLETED",
+            icon: "🏁",
+            background: "#E2E8F0",
+            color: "#475569"
+        }
+    };
+
+    return statusMap[status] || {
+        label: status,
+        icon: "🚨",
+        background: "#FEE2E2",
+        color: "#991B1B"
+    };
+}
+
+    try {
+
+        const response = await fetch(
+            "backend/get-emergency-cases.php"
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            container.innerHTML = `
+                <div style="
+                    padding:15px;
+                    border-radius:10px;
+                    background:#FEE2E2;
+                    color:#991B1B;
+                ">
+                    ❌ ${data.message}
+                </div>
+            `;
+
+            return;
+        }
+
+        if (!data.cases || data.cases.length === 0) {
+
+            container.innerHTML = `
+                <div style="
+                    padding:20px;
+                    text-align:center;
+                    color:#64748B;
+                ">
+                    No incoming emergencies.
+                </div>
+            `;
+
+            return;
+        }
+
+        function getPriorityInfo(caseItem) {
+
+    const allergy = (caseItem.allergies || "").toLowerCase();
+    const condition = (caseItem.medical_conditions || "").toLowerCase();
+
+    if (
+        allergy.includes("penicillin") ||
+        allergy.includes("severe") ||
+        allergy.includes("anaphylaxis")
+    ) {
+        return {
+            label: "HIGH PRIORITY",
+            icon: "🔴",
+            background: "#FEE2E2",
+            color: "#991B1B"
+        };
+    }
+
+    if (
+        condition.includes("diabetes") ||
+        condition.includes("heart") ||
+        condition.includes("cardiac")
+    ) {
+        return {
+            label: "PRIORITY",
+            icon: "🟠",
+            background: "#FFEDD5",
+            color: "#9A3412"
+        };
+    }
+
+    return {
+        label: "STANDARD",
+        icon: "🟢",
+        background: "#DCFCE7",
+        color: "#166534"
+    };
+}
+        const activeCases = data.cases.filter(
+    caseItem => caseItem.status !== "COMPLETED"
+);
+
+const completedCases = data.cases.filter(
+    caseItem => caseItem.status === "COMPLETED"
+);
+
+const sortedCases = [...activeCases].sort((a, b) => {
+
+    const priorityOrder = {
+        "IN_TRANSIT": 1,
+        "RECEIVED": 2,
+        "PREPARING": 3,
+        "READY": 4
+    };
+
+    const priorityA =
+        priorityOrder[a.status] || 99;
+
+    const priorityB =
+        priorityOrder[b.status] || 99;
+
+    return priorityA - priorityB;
+});
+
+container.innerHTML = sortedCases.map(caseItem => `
+
+            <div style="
+                padding:18px;
+                margin-top:15px;
+                border-radius:14px;
+                background:#F8FAFC;
+                border:1px solid #E2E8F0;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:15px;
+                    flex-wrap:wrap;
+                ">
+
+                    <div>
+
+                        <strong style="
+                            font-size:1.05rem;
+                            color:#111827;
+                        ">
+                            ${caseItem.full_name}
+                        </strong>
+
+                        <div style="
+                            color:#64748B;
+                            font-size:.8rem;
+                            margin-top:4px;
+                        ">
+                            ${caseItem.emergency_id}
+                        </div>
+
+                    </div>
+
+                    <span style="
+    padding:6px 10px;
+    border-radius:20px;
+    background:${getStatusDisplay(caseItem.status).background};
+    color:${getStatusDisplay(caseItem.status).color};
+    font-size:.72rem;
+    font-weight:800;
+">
+    ${getStatusDisplay(caseItem.status).icon}
+    ${getStatusDisplay(caseItem.status).label}
+</span>
+
+                </div>
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:10px;
+                    margin-top:15px;
+                ">
+
+                    <div class="info">
+
+                        <span>Incident</span>
+
+                        <strong>
+                            ${caseItem.incident_type || "Not provided"}
+                        </strong>
+
+                    </div>
+
+                    <div class="info">
+
+                        <span>ETA</span>
+
+                        <strong>
+                            ${caseItem.eta_minutes} minutes
+                        </strong>
+
+                    </div>
+
+                    <div class="info">
+
+                        <span>Location</span>
+
+                        <strong>
+                            ${caseItem.location || "Not provided"}
+                        </strong>
+
+                    </div>
+
+                    <div class="info">
+
+                        <span>Reported</span>
+
+                        <strong>
+                            ${caseItem.created_at}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div style="
+                    margin-top:15px;
+                    padding:14px;
+                    border-radius:10px;
+                    background:#EFF6FF;
+                ">
+
+                    <strong>Critical Information</strong>
+
+                    <div style="
+                        display:grid;
+                        gap:6px;
+                        margin-top:8px;
+                        font-size:.85rem;
+                    ">
+
+                        <div>
+                            🩸 Blood:
+                            <strong>
+                                ${caseItem.blood_group || "Not provided"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            ⚠️ Allergy:
+                            <strong>
+                                ${caseItem.allergies || "None reported"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            🏥 Condition:
+                            <strong>
+                                ${caseItem.medical_conditions || "None reported"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            💊 Medication:
+                            <strong>
+                                ${caseItem.critical_medications || "None reported"}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                ${
+                    caseItem.notes
+                    ? `
+                        <div style="
+                            margin-top:12px;
+                            color:#475569;
+                            font-size:.82rem;
+                        ">
+                            <strong>Paramedic Notes:</strong>
+                            ${caseItem.notes}
+                        </div>
+                    `
+                    : ""
+                }
+                    <div style="
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+">
+
+    <button
+        type="button"
+        class="request-button"
+        style="
+            background:#2563EB;
+            border:none;
+        "
+        onclick="
+            startHospitalAmbulanceTracking(
+                '${caseItem.case_id}'
+            )
+        "
+    >
+        🗺️ Track Ambulance Live
+    </button>
+
+</div>
+
+<div style="
+    margin-top:15px;
+    padding-top:15px;
+    border-top:1px solid #E2E8F0;
+">
+
+    <strong style="
+        display:block;
+        margin-bottom:10px;
+    ">
+        🏥 Hospital Case Actions
+    </strong>
+
+    <div style="
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap;
+    ">
+
+        ${
+            caseItem.status === "IN_TRANSIT"
+            ? `
+                <button
+                    type="button"
+                    class="request-button"
+                    style="
+                        background:#2563EB;
+                        border:none;
+                    "
+                    onclick="
+                        updateEmergencyCaseStatus(
+                            '${caseItem.case_id}',
+                            'RECEIVED'
+                        )
+                    "
+                >
+                    🏥 Accept / Received
+                </button>
+            `
+            : ""
+        }
+
+
+        ${
+            caseItem.status === "RECEIVED"
+            ? `
+                <button
+                    type="button"
+                    class="request-button"
+                    style="
+                        background:#D97706;
+                        border:none;
+                    "
+                    onclick="
+                        updateEmergencyCaseStatus(
+                            '${caseItem.case_id}',
+                            'PREPARING'
+                        )
+                    "
+                >
+                    🩺 Prepare Treatment
+                </button>
+            `
+            : ""
+        }
+
+
+        ${
+            caseItem.status === "PREPARING"
+            ? `
+                <button
+                    type="button"
+                    class="request-button"
+                    style="
+                        background:#16A34A;
+                        border:none;
+                    "
+                    onclick="
+                        updateEmergencyCaseStatus(
+                            '${caseItem.case_id}',
+                            'READY'
+                        )
+                    "
+                >
+                    ✅ Treatment Ready
+                </button>
+            `
+            : ""
+        }
+
+
+        ${
+            caseItem.status === "READY"
+            ? `
+                <button
+                    type="button"
+                    class="request-button"
+                    style="
+                        background:#475569;
+                        border:none;
+                    "
+                    onclick="
+                        updateEmergencyCaseStatus(
+                            '${caseItem.case_id}',
+                            'COMPLETED'
+                        )
+                    "
+                >
+                    🏁 Complete Case
+                </button>
+            `
+            : ""
+        }
+
+    </div>
+
+
+    <div
+        id="caseActionStatus-${caseItem.case_id}"
+        style="
+            margin-top:10px;
+            font-size:.85rem;
+        "
+    ></div>
+
+</div>
+
+</div>
+
+            </div>
+
+                `).join("");
+
+
+        /* =========================================
+           COMPLETED CASE HISTORY
+           ========================================= */
+
+        const completedContainer =
+            document.getElementById("completedCases");
+
+        if (completedContainer) {
+
+            if (completedCases.length === 0) {
+
+                completedContainer.innerHTML = "";
+
+            } else {
+
+                completedContainer.innerHTML = `
+                    <h3 style="
+                        margin:0 0 14px 0;
+                        color:#334155;
+                    ">
+                        🏁 Completed Cases
+                        <span style="
+                            font-size:13px;
+                            color:#64748B;
+                            font-weight:500;
+                        ">
+                            (${completedCases.length})
+                        </span>
+                    </h3>
+
+                    ${completedCases.map(caseItem => `
+                        <div style="
+                            padding:14px;
+                            margin-bottom:10px;
+                            border:1px solid #E2E8F0;
+                            border-radius:12px;
+                            background:#F8FAFC;
+                        ">
+
+                            <div style="
+                                display:flex;
+                                justify-content:space-between;
+                                align-items:center;
+                                gap:12px;
+                                flex-wrap:wrap;
+                            ">
+
+                                <div>
+                                    <strong style="
+                                        font-size:1rem;
+                                        color:#111827;
+                                    ">
+                                        ${caseItem.full_name}
+                                    </strong>
+
+                                    <div style="
+                                        font-size:13px;
+                                        color:#64748B;
+                                        margin-top:4px;
+                                    ">
+                                        Case: ${caseItem.case_id}
+                                    </div>
+                                </div>
+
+                                <span style="
+                                    padding:6px 10px;
+                                    border-radius:20px;
+                                    background:#E2E8F0;
+                                    color:#475569;
+                                    font-size:.72rem;
+                                    font-weight:800;
+                                ">
+                                    🏁 COMPLETED
+                                </span>
+
+                            </div>
+
+                            <div style="
+                                margin-top:8px;
+                                font-size:13px;
+                                color:#64748B;
+                            ">
+                                Completed:
+                                ${caseItem.updated_at}
+                            </div>
+
+                        </div>
+                    `).join("")}
+                `;
+            }
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div style="
+                padding:15px;
+                border-radius:10px;
+                background:#FEE2E2;
+                color:#991B1B;
+            ">
+                ❌ Unable to connect to the server.
+            </div>
+        `;
+    }
+}
+async function updateEmergencyCaseStatus(caseId, newStatus) {
+
+    const statusBox =
+        document.getElementById(
+            "caseActionStatus-" + caseId
+        );
+
+    if (statusBox) {
+        statusBox.innerHTML =
+            "⏳ Updating status...";
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/update-emergency-case.php",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        case_id: caseId,
+                        status: newStatus
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            if (statusBox) {
+                statusBox.innerHTML =
+                    "❌ " + data.message;
+            }
+
+            return;
+        }
+
+        if (statusBox) {
+            statusBox.innerHTML =
+                "✅ Status updated to <strong>" +
+                newStatus.replace("_", " ") +
+                "</strong>";
+        }
+
+        /*
+         * Refresh the case after 4 seconds
+         * so the success message remains visible.
+         */
+
+        setTimeout(() => {
+            loadIncomingCases();
+        }, 2000);
+
+    } catch (error) {
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+        if (statusBox) {
+            statusBox.innerHTML =
+                "❌ Unable to update status.";
+        }
+    }
+}
+
+
+loadIncomingCases();
+// Automatically refresh emergency cases every 5 seconds
+setInterval(() => {
+    loadIncomingCases();
+}, 5000);
+
+</script>
+
+</body>
+</html>

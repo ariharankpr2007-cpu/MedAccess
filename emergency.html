@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Medical Profile | MedAccess</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* =========================================================
+           EMERGENCY PROFILE PAGE
+           ========================================================= */
+
+        .emergency-page {
+            min-height: 100vh;
+            background: #f6f9fc;
+            padding-top: 90px;
+        }
+
+        /* Top Emergency Banner */
+        .emergency-banner {
+            background: linear-gradient(135deg, #b91c1c, #ef4444);
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emergency-banner::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -180px;
+            left: 10%;
+        }
+
+        .emergency-banner-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .emergency-pulse {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: emergencyPulse 1.2s infinite;
+        }
+
+        @keyframes emergencyPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.7);
+                opacity: .5;
+            }
+        }
+
+        /* Main container */
+
+        .emergency-container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+            padding: 45px 0 70px;
+        }
+
+        .emergency-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .emergency-header .eyebrow {
+            color: #dc2626;
+            font-weight: 700;
+            font-size: .85rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .emergency-header h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .emergency-header p {
+            color: #64748b;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        /* Profile card */
+
+        .emergency-profile-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, .10);
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            animation: profileAppear .7s ease both;
+        }
+
+        @keyframes profileAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Patient identity */
+
+        .patient-identity {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .patient-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 1.7rem;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, .25);
+        }
+
+        .patient-info h2 {
+            margin: 0 0 5px;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .patient-info p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .emergency-id {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 12px 17px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .emergency-id span {
+            display: block;
+            font-size: .7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 4px;
+        }
+
+        .emergency-id strong {
+            color: #1d4ed8;
+            letter-spacing: .12em;
+        }
+
+        /* Critical section */
+
+        .critical-section {
+            padding: 30px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .section-heading h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+
+        .critical-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 7px 11px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        /* Medical information grid */
+
+        .medical-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .medical-card {
+            padding: 22px;
+            border-radius: 17px;
+            border: 1px solid #e5e7eb;
+            background: #fafafa;
+            transition: .3s ease;
+        }
+
+        .medical-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .08);
+        }
+
+        .medical-card.critical {
+            border-color: #fecaca;
+            background: #fff7f7;
+        }
+
+        .medical-card-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #eef2ff;
+            margin-bottom: 13px;
+            font-size: 1.2rem;
+        }
+
+        .medical-card.critical .medical-card-icon {
+            background: #fee2e2;
+        }
+
+        .medical-card small {
+            display: block;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .medical-card strong {
+            display: block;
+            color: #111827;
+            font-size: 1.05rem;
+        }
+
+        .allergy-warning {
+            color: #b91c1c !important;
+        }
+
+        /* Emergency contact */
+
+        .contact-section {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f8fafc, #eef6ff);
+            border: 1px solid #dbeafe;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: #dbeafe;
+            display: grid;
+            place-items: center;
+            font-size: 1.3rem;
+        }
+
+        .contact-info small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .contact-info strong {
+            color: #111827;
+        }
+
+        .call-button {
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #16a34a;
+            color: white;
+            font-weight: 700;
+            transition: .3s ease;
+        }
+
+        .call-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(22, 163, 74, .25);
+        }
+
+        /* Protected information */
+
+        .protected-section {
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            background: #0f172a;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .protected-section::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.08);
+            right: -80px;
+            top: -100px;
+        }
+
+        .protected-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .protected-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .protected-title {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lock-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: rgba(255,255,255,.1);
+            font-size: 1.3rem;
+        }
+
+        .protected-title h3 {
+            margin: 0 0 4px;
+            font-size: 1.2rem;
+        }
+
+        .protected-title p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: .9rem;
+        }
+
+        .protected-status {
+            background: rgba(34,197,94,.12);
+            color: #86efac;
+            border: 1px solid rgba(134,239,172,.2);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .protected-description {
+            color: #cbd5e1;
+            line-height: 1.7;
+            max-width: 750px;
+            margin: 22px 0;
+        }
+
+        .request-access-btn {
+            border: none;
+            cursor: pointer;
+            padding: 13px 20px;
+            border-radius: 12px;
+            background: white;
+            color: #0f172a;
+            font-weight: 800;
+            transition: .3s ease;
+        }
+
+        .request-access-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,255,255,.15);
+        }
+
+        /* Security footer */
+
+        .security-note {
+            margin-top: 25px;
+            text-align: center;
+            color: #64748b;
+            font-size: .85rem;
+        }
+
+        .security-note span {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        /* Modal */
+
+        .access-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.65);
+            backdrop-filter: blur(7px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .access-modal.active {
+            display: flex;
+            animation: modalFade .25s ease;
+        }
+
+        @keyframes modalFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .access-modal-box {
+            background: white;
+            width: min(500px, 100%);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 25px 80px rgba(0,0,0,.25);
+            animation: modalUp .3s ease;
+        }
+
+        @keyframes modalUp {
+            from {
+                transform: translateY(25px) scale(.97);
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+        }
+
+        .close-modal {
+            border: none;
+            background: #f1f5f9;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .access-modal-box label {
+            display: block;
+            margin: 15px 0 7px;
+            font-size: .85rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .access-modal-box select,
+        .access-modal-box textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 11px;
+            padding: 12px;
+            font: inherit;
+            outline: none;
+        }
+
+        .access-modal-box select:focus,
+        .access-modal-box textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        .confirm-access {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            border: none;
+            border-radius: 11px;
+            background: #2563eb;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .access-result {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+
+            .emergency-page {
+                padding-top: 75px;
+            }
+
+            .emergency-container {
+                width: 94%;
+                padding-top: 30px;
+            }
+
+            .patient-identity {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .emergency-id {
+                width: 100%;
+            }
+
+            .medical-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .call-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .protected-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                gap: 12px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-mark">+</span>
+                <span>MedAccess</span>
+            </a>
+
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="patient-register.html">Create Profile</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main class="emergency-page">
+
+        <!-- EMERGENCY BANNER -->
+        <div class="emergency-banner">
+
+            <div class="emergency-banner-content">
+                <span class="emergency-pulse"></span>
+                EMERGENCY MEDICAL PROFILE
+                <span class="emergency-pulse"></span>
+            </div>
+
+        </div>
+
+
+        <div class="emergency-container">
+
+            <!-- PAGE INTRO -->
+            <section class="emergency-header">
+
+                <div class="eyebrow">
+                    Critical information
+                </div>
+
+                <h1>Emergency Medical Profile</h1>
+
+                <p>
+                    Important medical information is displayed here to help
+                    responders make safer decisions when the patient cannot
+                    communicate.
+                </p>
+
+            </section>
+
+
+            <!-- PROFILE CARD -->
+            <section class="emergency-profile-card">
+
+
+                <!-- PATIENT IDENTITY -->
+                <div class="patient-identity">
+
+                    <div class="patient-info">
+
+                        <div class="patient-avatar">
+                            RK
+                        </div>
+
+                        <div>
+                            <h2>Ravi Kumar</h2>
+                            <p>Emergency profile • Verified information</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="emergency-id">
+
+                        <span>Emergency ID</span>
+
+                        <strong>MED-4829-71</strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CRITICAL INFORMATION -->
+                <div class="critical-section">
+
+                    <div class="section-heading">
+
+                        <h3>Critical Medical Information</h3>
+
+                        <div class="critical-label">
+                            ⚠ Critical
+                        </div>
+
+                    </div>
+
+
+                    <div class="medical-grid">
+
+                        <!-- Blood -->
+                        <div class="medical-card">
+
+                            <div class="medical-card-icon">
+                                🩸
+                            </div>
+
+                            <small>Blood Group</small>
+
+                            <strong>O Positive (O+)</strong>
+
+                        </div>
+
+
+                        <!-- Allergy -->
+                        <div class="medical-card critical">
+
+                            <div class="medical-card-icon">
+                                ⚠️
+                            </div>
+
+                            <small>Critical Allergies</small>
+
+                            <strong class="allergy-warning">
+                                Penicillin
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Conditions -->
+                        <div class="medical-card critical">
+
+                            <div class="medical-card-icon">
+                                ❤️
+                            </div>
+
+                            <small>Existing Conditions</small>
+
+                            <strong>
+                                Type 2 Diabetes
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Medication -->
+                        <div class="medical-card">
+
+                            <div class="medical-card-icon">
+                                💊
+                            </div>
+
+                            <small>Critical Medication</small>
+
+                            <strong>
+                                Metformin
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMERGENCY CONTACT -->
+                    <div class="contact-section">
+
+                        <div class="contact-info">
+
+                            <div class="contact-icon">
+                                📞
+                            </div>
+
+                            <div>
+
+                                <small>Emergency Contact</small>
+
+                                <strong>
+                                    Priya Kumar • +91 98765 43210
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <a href="tel:+919876543210"
+                           class="call-button">
+                            Call Contact
+                        </a>
+
+                    </div>
+
+
+                    <!-- PROTECTED INFORMATION -->
+                    <div class="protected-section">
+
+                        <div class="protected-content">
+
+                            <div class="protected-top">
+
+                                <div class="protected-title">
+
+                                    <div class="lock-icon">
+                                        🔐
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Protected Medical Information
+                                        </h3>
+
+                                        <p>
+                                            Additional information requires
+                                            authorized emergency access.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="protected-status">
+                                    🔒 Protected
+                                </div>
+
+                            </div>
+
+
+                            <p class="protected-description">
+
+                                Detailed medical history, previous treatments,
+                                complete medication records and clinical
+                                documents are protected by default.
+                                Emergency access can be requested when
+                                additional information is necessary.
+
+                            </p>
+
+                            <div
+    id="protectedRecords"
+    style="
+        display:none;
+        margin:22px 0;
+        padding:20px;
+        border-radius:15px;
+        background:rgba(255,255,255,.07);
+        border:1px solid rgba(255,255,255,.1);
+    ">
+
+    <h4 style="
+        margin:0 0 15px;
+        color:white;
+    ">
+        🔓 Protected Medical Records
+    </h4>
+
+    <div id="protectedRecordsList"></div>
+
+    <div
+        id="protectedAccessTimer"
+        style="
+            margin-top:15px;
+            color:#86efac;
+            font-weight:800;
+        ">
+    </div>
+
+</div>
+
+
+                            <div
+    style="
+        margin-top:18px;
+        padding:14px 16px;
+        border-radius:12px;
+        background:rgba(255,255,255,.06);
+        border:1px solid rgba(255,255,255,.10);
+        color:#cbd5e1;
+        font-size:.85rem;
+        line-height:1.6;
+    "
+>
+    🔐 <strong style="color:white;">
+        Professional Access Only
+    </strong>
+    <br>
+    Detailed medical records can only be accessed
+    through an authorized professional account.
+</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div class="security-note">
+                🛡 <span>Privacy protected.</span>
+                Emergency access requests are recorded for security and
+                accountability.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ACCESS MODAL -->
+
+    <div class="access-modal" id="accessModal">
+
+        <div class="access-modal-box">
+
+            <div class="modal-header">
+
+                <h3>Request Emergency Access</h3>
+
+                <button
+                    class="close-modal"
+                    id="closeModal">
+                    ×
+                </button>
+
+            </div>
+
+
+            <p style="color:#64748b; font-size:.9rem; line-height:1.6;">
+                Select why additional medical information is required.
+                This request will be recorded in the access log.
+            </p>
+
+            <label for="accessorType">
+    Who are you?
+</label>
+
+<select id="accessorType">
+
+    <option value="">
+        Select your role
+    </option>
+
+    <option value="PARAMEDIC">
+        🚑 Paramedic / Ambulance Staff
+    </option>
+
+    <option value="DOCTOR">
+        👨‍⚕️ Doctor
+    </option>
+
+    <option value="HOSPITAL_STAFF">
+        🏥 Hospital Staff
+    </option>
+
+    <option value="GENERAL_HELPER">
+        👤 General Helper / Bystander
+    </option>
+
+</select>
+
+
+            <label for="accessReason">
+                Reason for access
+            </label>
+
+            <select id="accessReason">
+
+                <option value="">
+                    Select a reason
+                </option>
+
+                <option>
+                    Patient is unconscious
+                </option>
+
+                <option>
+                    Patient is unable to communicate
+                </option>
+
+                <option>
+                    Accident / Injury
+                </option>
+
+                <option>
+                    Medical emergency
+                </option>
+
+                <option>
+                    Other emergency
+                </option>
+
+            </select>
+
+
+            <label for="accessDetails">
+                Additional details
+            </label>
+
+            <textarea
+                id="accessDetails"
+                rows="4"
+                placeholder="Briefly explain why access is required...">
+            </textarea>
+
+
+            <button
+                class="confirm-access"
+                id="confirmAccess">
+
+                Request Temporary Access
+
+            </button>
+
+
+            <div
+                class="access-result"
+                id="accessResult">
+
+                ✓ Emergency access request recorded.
+                <br><br>
+
+                <strong>
+                    Demo access granted for 10 minutes.
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/main.js"></script>
+
+
+    <script>
+
+        /* =========================================================
+           EMERGENCY ACCESS MODAL
+           ========================================================= */
+
+        const requestAccessBtn =
+            document.getElementById("requestAccessBtn");
+
+        const accessModal =
+            document.getElementById("accessModal");
+
+        const closeModal =
+            document.getElementById("closeModal");
+
+        const confirmAccess =
+            document.getElementById("confirmAccess");
+
+        const accessReason =
+            document.getElementById("accessReason");
+
+        const accessResult =
+            document.getElementById("accessResult");
+
+
+        requestAccessBtn.addEventListener("click", () => {
+
+            accessModal.classList.add("active");
+
+        });
+
+
+        closeModal.addEventListener("click", () => {
+
+            accessModal.classList.remove("active");
+
+        });
+
+
+        accessModal.addEventListener("click", (event) => {
+
+            if (event.target === accessModal) {
+
+                accessModal.classList.remove("active");
+
+            }
+
+        });
+
+/* =========================================================
+   REAL EMERGENCY ACCESS REQUEST
+   ========================================================= */
+
+confirmAccess.addEventListener(
+    "click",
+    async function () {
+
+        const reason =
+            accessReason.value;
+
+            const accessorType =
+    document.getElementById(
+        "accessorType"
+    ).value;
+
+        const details =
+            document.getElementById(
+                "accessDetails"
+            ).value.trim();
+
+
+        /*
+        | Get Emergency ID from URL
+        */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const emergencyId =
+            urlParams.get("id");
+
+
+        /*
+        | Validation
+        */
+
+        if (!emergencyId) {
+
+            alert(
+                "Emergency ID is missing."
+            );
+
+            return;
+
+        }
+
+
+        if (!accessorType) {
+
+    alert(
+        "Please select who you are."
+    );
+
+    return;
+
+}
+
+
+if (!reason) {
+
+    alert(
+        "Please select a reason for emergency access."
+    );
+
+    return;
+
+}
+
+
+        /*
+        | Loading state
+        */
+
+        confirmAccess.disabled = true;
+
+        confirmAccess.textContent =
+            "Recording access request...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "backend/request-access.php",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            emergency_id:
+                                emergencyId,
+
+                            accessor_type:
+    accessorType,
+
+                            access_method:
+                                "WEB",
+
+                            reason:
+                                reason,
+
+                            details:
+                                details
+
+                        })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            /*
+            | Backend error
+            */
+
+            if (!result.success) {
+
+                alert(
+                    result.message ||
+                    "Access request failed."
+                );
+
+                confirmAccess.disabled = false;
+
+                confirmAccess.textContent =
+                    "Request Temporary Access";
+
+                return;
+
+            }
+
+
+            /*
+            | Success
+            */
+
+            confirmAccess.style.display =
+                "none";
+
+
+            accessResult.style.display =
+                "block";
+
+
+            accessResult.innerHTML = `
+
+                ✓ Emergency access request recorded.
+
+                <br><br>
+
+                <strong>
+                    Temporary emergency access granted.
+                </strong>
+
+                <br>
+
+                <span style="
+                    display:block;
+                    margin-top:6px;
+                    font-size:.85rem;
+                ">
+                    Access expires in
+                    ${result.duration_minutes}
+                    minutes.
+                </span>
+
+            `;
+
+
+            /*
+            | Show countdown
+            */
+
+            startAccessCountdown(
+                result.expires_at
+            );
+
+            loadProtectedRecords(
+    emergencyId,
+    result.access_id
+);
+
+
+        } catch (error) {
+
+            console.error(
+                "Access request error:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to the server."
+            );
+
+
+            confirmAccess.disabled =
+                false;
+
+
+            confirmAccess.textContent =
+                "Request Temporary Access";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ACCESS COUNTDOWN
+   ========================================================= */
+
+function startAccessCountdown(
+    expiresAt
+) {
+
+    const expiry =
+        new Date(
+            expiresAt.replace(" ", "T")
+        );
+
+
+    const countdown =
+        document.createElement("div");
+
+
+    countdown.id =
+        "accessCountdown";
+
+
+    countdown.style.cssText = `
+        margin-top:12px;
+        font-weight:800;
+        color:#2563eb;
+    `;
+
+
+    accessResult.appendChild(
+        countdown
+    );
+
+
+    function updateCountdown() {
+
+        const remaining =
+            expiry.getTime() -
+            Date.now();
+
+
+        if (remaining <= 0) {
+
+            countdown.textContent =
+                "⏱ Emergency access has expired.";
+
+            return;
+
+        }
+
+
+        const minutes =
+            Math.floor(
+                remaining / 60000
+            );
+
+
+        const seconds =
+            Math.floor(
+                (remaining % 60000) / 1000
+            );
+
+
+        countdown.textContent =
+            `⏱ Access remaining: ${
+                String(minutes).padStart(2, "0")
+            }:${
+                String(seconds).padStart(2, "0")
+            }`;
+
+
+        setTimeout(
+            updateCountdown,
+            1000
+        );
+
+    }
+
+
+    updateCountdown();
+
+}   
+
+async function loadProtectedRecords(
+    emergencyId,
+    accessId
+) {
+
+    const protectedSection =
+        document.getElementById(
+            "protectedRecords"
+        );
+
+    const recordsList =
+        document.getElementById(
+            "protectedRecordsList"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/get-protected-records.php?" +
+                "emergency_id=" +
+                encodeURIComponent(emergencyId) +
+                "&access_id=" +
+                encodeURIComponent(accessId)
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            alert(
+                result.message ||
+                "Protected information unavailable."
+            );
+
+            return;
+
+        }
+
+
+        protectedSection.style.display =
+            "block";
+
+
+        const records =
+            result.records;
+
+
+        if (records.length === 0) {
+
+            recordsList.innerHTML = `
+
+                <div style="
+                    color:#cbd5e1;
+                    line-height:1.6;
+                ">
+
+                    No detailed medical records
+                    are currently available.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        recordsList.innerHTML = "";
+
+
+        records.forEach(record => {
+
+            const recordCard =
+                document.createElement(
+                    "div"
+                );
+
+
+            recordCard.style.cssText = `
+                padding:16px;
+                margin-bottom:12px;
+                border-radius:12px;
+                background:rgba(255,255,255,.06);
+                border:1px solid rgba(255,255,255,.08);
+            `;
+
+
+            recordCard.innerHTML = `
+
+                <div style="
+                    margin-bottom:8px;
+                    color:#94a3b8;
+                    font-size:.75rem;
+                ">
+                    Medical Record
+                </div>
+
+                <div style="
+                    color:white;
+                    font-weight:800;
+                    margin-bottom:6px;
+                ">
+                    ${record.diagnosis || "Diagnosis unavailable"}
+                </div>
+
+                <div style="
+                    color:#cbd5e1;
+                    font-size:.88rem;
+                    line-height:1.7;
+                ">
+
+                    <strong>Medication:</strong>
+                    ${record.medication || "Not available"}
+
+                    <br>
+
+                    <strong>Hospital:</strong>
+                    ${record.hospital || "Not available"}
+
+                    <br>
+
+                    <strong>Doctor:</strong>
+                    ${record.doctor || "Not available"}
+
+                    <br>
+
+                    <strong>Date:</strong>
+                    ${record.record_date || "Not available"}
+
+                    <br>
+
+                    <strong>Notes:</strong>
+                    ${record.notes || "None"}
+
+                </div>
+
+            `;
+
+
+            recordsList.appendChild(
+                recordCard
+            );
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Protected records error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+
+
+    </script>
+
+    <script>
+/* =========================================================
+   LOAD REAL EMERGENCY PROFILE FROM MYSQL
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    // Get Emergency ID from URL
+    const urlParams = new URLSearchParams(
+        window.location.search
+    );
+
+    const emergencyId =
+        urlParams.get("id");
+
+
+    // No ID supplied
+    if (!emergencyId) {
+
+        showProfileError(
+            "No Emergency ID was provided."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            "backend/get-profile.php?emergency_id=" +
+            encodeURIComponent(emergencyId)
+        );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            showProfileError(
+                result.message ||
+                "Emergency profile not found."
+            );
+
+            return;
+        }
+
+
+        // Patient information from MySQL
+        const profile =
+            result.profile;
+
+
+        updateEmergencyProfile(profile);
+
+
+    } catch (error) {
+
+        console.error(
+            "Emergency profile error:",
+            error
+        );
+
+
+        showProfileError(
+            "Unable to load emergency information."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   UPDATE PAGE WITH DATABASE INFORMATION
+   ========================================================= */
+
+function updateEmergencyProfile(profile) {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Patient name
+    |--------------------------------------------------------------------------
+    */
+
+    const patientName =
+        document.querySelector(
+            ".patient-info h2"
+        );
+
+
+    if (patientName) {
+
+        patientName.textContent =
+            profile.full_name;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Emergency ID
+    |--------------------------------------------------------------------------
+    */
+
+    const emergencyIdElement =
+        document.querySelector(
+            ".emergency-id strong"
+        );
+
+
+    if (emergencyIdElement) {
+
+        emergencyIdElement.textContent =
+            profile.emergency_id;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Avatar initials
+    |--------------------------------------------------------------------------
+    */
+
+    const avatar =
+        document.querySelector(
+            ".patient-avatar"
+        );
+
+
+    if (avatar) {
+
+        const names =
+            profile.full_name
+                .trim()
+                .split(/\s+/);
+
+
+        let initials = "";
+
+
+        if (names.length >= 2) {
+
+            initials =
+                names[0].charAt(0) +
+                names[names.length - 1].charAt(0);
+
+        } else {
+
+            initials =
+                names[0].substring(0, 2);
+
+        }
+
+
+        avatar.textContent =
+            initials.toUpperCase();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Medical cards
+    |--------------------------------------------------------------------------
+    */
+
+    const medicalCards =
+        document.querySelectorAll(
+            ".medical-card"
+        );
+
+
+    if (medicalCards.length >= 4) {
+
+
+        // Blood group
+        medicalCards[0]
+            .querySelector("strong")
+            .textContent =
+            profile.blood_group ||
+            "Not provided";
+
+
+        // Allergy
+        medicalCards[1]
+            .querySelector("strong")
+            .textContent =
+            profile.allergies ||
+            "None reported";
+
+
+        // Conditions
+        medicalCards[2]
+            .querySelector("strong")
+            .textContent =
+            profile.medical_conditions ||
+            "None reported";
+
+
+        // Medication
+        medicalCards[3]
+            .querySelector("strong")
+            .textContent =
+            profile.critical_medications ||
+            "None reported";
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Emergency contact
+    |--------------------------------------------------------------------------
+    */
+
+    const contactStrong =
+        document.querySelector(
+            ".contact-info strong"
+        );
+
+
+    if (contactStrong) {
+
+        contactStrong.textContent =
+            profile.emergency_contact_name +
+            " • " +
+            profile.emergency_contact_phone;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Call button
+    |--------------------------------------------------------------------------
+    */
+
+    const callButton =
+        document.querySelector(
+            ".call-button"
+        );
+
+
+    if (callButton) {
+
+        const phone =
+            profile.emergency_contact_phone
+                .replace(/\s+/g, "");
+
+
+        callButton.href =
+            "tel:" + phone;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update page title
+    |--------------------------------------------------------------------------
+    */
+
+    document.title =
+        "Emergency Profile - " +
+        profile.full_name;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store current emergency ID
+    |--------------------------------------------------------------------------
+    */
+
+    localStorage.setItem(
+        "viewed_emergency_id",
+        profile.emergency_id
+    );
+
+}
+
+
+/* =========================================================
+   ERROR DISPLAY
+   ========================================================= */
+
+function showProfileError(message) {
+
+    const container =
+        document.querySelector(
+            ".emergency-container"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = `
+
+        <div style="
+            max-width:600px;
+            margin:80px auto;
+            background:white;
+            padding:40px 30px;
+            border-radius:22px;
+            text-align:center;
+            box-shadow:0 20px 60px rgba(15,23,42,.10);
+        ">
+
+            <div style="
+                font-size:3rem;
+                margin-bottom:15px;
+            ">
+                ⚠️
+            </div>
+
+            <h2 style="
+                margin-bottom:10px;
+                color:#111827;
+            ">
+                Emergency Profile Unavailable
+            </h2>
+
+            <p style="
+                color:#64748b;
+                line-height:1.6;
+            ">
+                ${message}
+            </p>
+
+            <a
+                href="index.html"
+                style="
+                    display:inline-block;
+                    margin-top:20px;
+                    padding:12px 20px;
+                    border-radius:11px;
+                    background:#2563eb;
+                    color:white;
+                    text-decoration:none;
+                    font-weight:700;
+                "
+            >
+                Return Home
+            </a>
+
+        </div>
+
+    `;
+
+}
+</script>
+
+</body>
+</html>

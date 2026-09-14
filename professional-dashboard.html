@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Response Portal | MedAccess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+
+    <style>
+
+        .portal-page {
+
+            min-height:100vh;
+
+            background:#f6f9fc;
+
+            padding-top:90px;
+
+        }
+
+
+        .portal-container {
+
+            width:min(1100px,92%);
+
+            margin:auto;
+
+            padding:35px 0 70px;
+
+        }
+
+
+        .portal-top {
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            gap:20px;
+
+            margin-bottom:30px;
+
+        }
+
+
+        .portal-title h1 {
+
+            margin:0 0 7px;
+
+            color:#111827;
+
+            font-size:clamp(
+                1.7rem,
+                4vw,
+                2.5rem
+            );
+
+        }
+
+
+        .portal-title p {
+
+            margin:0;
+
+            color:#64748b;
+
+        }
+
+
+        .professional-badge {
+
+            padding:10px 15px;
+
+            border-radius:20px;
+
+            background:#dbeafe;
+
+            color:#1e40af;
+
+            font-size:.78rem;
+
+            font-weight:800;
+
+        }
+
+
+        .search-card {
+
+            background:white;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:20px;
+
+            padding:25px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(15,23,42,.06);
+
+            margin-bottom:25px;
+
+        }
+
+
+        .search-row {
+
+            display:flex;
+
+            gap:12px;
+
+        }
+
+
+        .search-row input {
+
+            flex:1;
+
+            min-width:0;
+
+            padding:14px;
+
+            border:1px solid #cbd5e1;
+
+            border-radius:12px;
+
+            font:inherit;
+
+            outline:none;
+
+        }
+
+
+        .search-row input:focus {
+
+            border-color:#2563eb;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,.08);
+
+        }
+
+
+        .search-button {
+
+            padding:14px 22px;
+
+            border:none;
+
+            border-radius:12px;
+
+            background:#2563eb;
+
+            color:white;
+
+            font:inherit;
+
+            font-weight:800;
+
+            cursor:pointer;
+
+        }
+
+
+        .search-button:disabled {
+
+            opacity:.6;
+
+            cursor:not-allowed;
+
+        }
+
+
+        .profile-result {
+
+            display:none;
+
+            animation:
+                resultAppear .4s ease;
+
+        }
+
+
+        .profile-result.show {
+
+            display:block;
+
+        }
+
+
+        @keyframes resultAppear {
+
+            from {
+
+                opacity:0;
+
+                transform:translateY(12px);
+
+            }
+
+            to {
+
+                opacity:1;
+
+                transform:translateY(0);
+
+            }
+
+        }
+
+
+        .patient-card {
+
+            background:white;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:20px;
+
+            padding:28px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(15,23,42,.06);
+
+        }
+
+
+        .patient-header {
+
+            display:flex;
+
+            align-items:center;
+
+            gap:17px;
+
+            padding-bottom:22px;
+
+            border-bottom:1px solid #e5e7eb;
+
+        }
+
+
+        .patient-avatar {
+
+            width:65px;
+
+            height:65px;
+
+            border-radius:18px;
+
+            display:grid;
+
+            place-items:center;
+
+            background:#dbeafe;
+
+            color:#1d4ed8;
+
+            font-size:1.3rem;
+
+            font-weight:900;
+
+        }
+
+
+        .patient-header h2 {
+
+            margin:0 0 5px;
+
+            color:#111827;
+
+        }
+
+
+        .patient-header p {
+
+            margin:0;
+
+            color:#64748b;
+
+            font-size:.82rem;
+
+        }
+
+
+        .critical-label {
+
+            margin-top:22px;
+
+            margin-bottom:12px;
+
+            color:#991b1b;
+
+            font-weight:900;
+
+            font-size:.8rem;
+
+            text-transform:uppercase;
+
+            letter-spacing:.08em;
+
+        }
+
+
+        .critical-grid {
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap:12px;
+
+        }
+
+
+        .critical-card {
+
+            padding:17px;
+
+            border-radius:14px;
+
+            background:#f8fafc;
+
+            border:1px solid #e2e8f0;
+
+        }
+
+
+        .critical-card span {
+
+            display:block;
+
+            color:#64748b;
+
+            font-size:.72rem;
+
+            margin-bottom:6px;
+
+        }
+
+
+        .critical-card strong {
+
+            color:#111827;
+
+            line-height:1.4;
+
+        }
+
+
+        .access-box {
+
+            margin-top:22px;
+
+            padding:20px;
+
+            border-radius:15px;
+
+            background:#eff6ff;
+
+            border:1px solid #dbeafe;
+
+        }
+
+
+        .access-box h3 {
+
+            margin:0 0 7px;
+
+            color:#1e3a8a;
+
+        }
+
+
+        .access-box p {
+
+            margin:0;
+
+            color:#475569;
+
+            font-size:.82rem;
+
+            line-height:1.6;
+
+        }
+
+
+        .request-button {
+
+            margin-top:15px;
+
+            border:none;
+
+            padding:12px 18px;
+
+            border-radius:10px;
+
+            background:#16a34a;
+
+            color:white;
+
+            font:inherit;
+
+            font-weight:800;
+
+            cursor:pointer;
+
+        }
+
+
+        .status-message {
+
+            display:none;
+
+            margin-top:15px;
+
+            padding:14px;
+
+            border-radius:11px;
+
+            font-size:.82rem;
+
+            line-height:1.6;
+
+        }
+
+
+        .status-message.show {
+
+            display:block;
+
+        }
+
+
+        .empty-state {
+
+            text-align:center;
+
+            padding:55px 20px;
+
+            color:#64748b;
+
+        }
+
+
+        .empty-state-icon {
+
+            font-size:3rem;
+
+            margin-bottom:12px;
+
+        }
+
+
+        @media(max-width:800px) {
+
+            .critical-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
+            }
+
+        }
+
+
+        @media(max-width:600px) {
+
+            .portal-page {
+
+                padding-top:75px;
+
+            }
+
+            .portal-top {
+
+                align-items:flex-start;
+
+                flex-direction:column;
+
+            }
+
+            .search-row {
+
+                flex-direction:column;
+
+            }
+
+            .critical-grid {
+
+                grid-template-columns:1fr;
+
+            }
+
+            .patient-header {
+
+                align-items:flex-start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+    <div class="container nav-container">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <span class="logo-mark">+</span>
+
+            <span>MedAccess</span>
+
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="emergency.html">
+                Emergency View
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="portal-page">
+
+
+<div class="portal-container">
+
+
+    <div class="portal-top">
+
+        <div class="portal-title">
+
+            <h1>
+                Emergency Response Portal
+            </h1>
+
+            <p>
+                Find and review critical patient information.
+            </p>
+
+        </div>
+
+
+        <div
+    style="
+        display:flex;
+        align-items:center;
+        gap:10px;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+    "
+>
+
+    <div
+        class="professional-badge"
+        id="professionalBadge">
+
+        PROFESSIONAL
+
+    </div>
+
+
+    <button
+        type="button"
+        id="logoutButton"
+        onclick="professionalLogout()"
+        style="
+            padding:10px 15px;
+            border:1px solid #fecaca;
+            border-radius:12px;
+            background:#fff1f2;
+            color:#be123c;
+            font:inherit;
+            font-size:.78rem;
+            font-weight:800;
+            cursor:pointer;
+            transition:.25s ease;
+        "
+        onmouseover="
+            this.style.transform='translateY(-2px)';
+            this.style.boxShadow='0 6px 16px rgba(190,24,93,.12)';
+        "
+        onmouseout="
+            this.style.transform='translateY(0)';
+            this.style.boxShadow='none';
+        "
+    >
+
+        🔒 Logout
+
+    </button>
+
+</div>
+
+    </div>
+
+
+
+    <!-- SEARCH -->
+
+    <div class="search-card">
+
+        <form
+            id="patientSearchForm">
+
+            <div class="search-row">
+
+                <input
+                    id="emergencyIdInput"
+                    type="text"
+                    placeholder="Enter Emergency ID — MED-9713-59"
+                    required>
+
+
+                <button
+                    class="search-button"
+                    id="searchButton"
+                    type="submit">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- RESULT -->
+
+    <div
+        class="profile-result"
+        id="profileResult">
+
+        <div
+            class="patient-card"
+            id="patientCard">
+        </div>
+
+    </div>
+
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="search-card"
+        id="emptyState">
+
+        <div class="empty-state">
+
+            <div class="empty-state-icon">
+                🚑
+            </div>
+
+            <strong>
+                Search for an Emergency Profile
+            </strong>
+
+            <p>
+                Enter the patient's Emergency ID
+                to retrieve critical emergency information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+
+<script>
+
+const professionalRole =
+    sessionStorage.getItem(
+        "professional_role"
+    );
+
+
+const professionalId =
+    sessionStorage.getItem(
+        "professional_id"
+    );
+
+
+const professionalName =
+    sessionStorage.getItem(
+        "professional_name"
+    );
+
+
+/*
+|--------------------------------------------------------------------------
+| Require professional session
+|--------------------------------------------------------------------------
+*/
+
+if (
+    !professionalRole ||
+    !professionalId ||
+    !professionalName
+) {
+
+    window.location.href =
+        "professional-login.html";
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Verify server-side professional session
+|--------------------------------------------------------------------------
+*/
+
+fetch(
+    "backend/professional-session.php",
+    {
+        method: "GET",
+        credentials: "include"
+    }
+)
+.then(function(response) {
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Professional session is not valid."
+        );
+
+    }
+
+    return response.json();
+
+})
+.then(function(data) {
+
+    if (!data.success) {
+
+        sessionStorage.clear();
+
+        window.location.href =
+            "professional-login.html";
+
+        return;
+    }
+
+
+    /*
+    | Use verified server identity
+    | for the dashboard display.
+    */
+
+    const verifiedProfessional =
+        data.professional;
+
+
+    const professionalBadge =
+        document.getElementById(
+            "professionalBadge"
+        );
+
+
+    if (professionalBadge) {
+
+        professionalBadge.textContent =
+            verifiedProfessional.role.replace(
+                /_/g,
+                " "
+            ) +
+            " • " +
+            verifiedProfessional.name;
+    }
+
+})
+.catch(function(error) {
+
+    console.error(
+        "Professional session verification failed:",
+        error
+    );
+
+    sessionStorage.clear();
+
+    window.location.href =
+        "professional-login.html";
+
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Search patient
+|--------------------------------------------------------------------------
+*/
+
+const searchForm =
+    document.getElementById(
+        "patientSearchForm"
+    );
+
+
+const searchButton =
+    document.getElementById(
+        "searchButton"
+    );
+
+
+const result =
+    document.getElementById(
+        "profileResult"
+    );
+
+
+const emptyState =
+    document.getElementById(
+        "emptyState"
+    );
+
+
+const patientCard =
+    document.getElementById(
+        "patientCard"
+    );
+
+
+searchForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const emergencyId =
+            document
+                .getElementById(
+                    "emergencyIdInput"
+                )
+                .value
+                .trim()
+                .toUpperCase();
+
+
+        if (!emergencyId) {
+            return;
+        }
+
+
+        searchButton.disabled =
+            true;
+
+        searchButton.textContent =
+            "Searching...";
+
+
+        result.classList.remove(
+            "show"
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "backend/get-profile.php?emergency_id=" +
+                    encodeURIComponent(
+                        emergencyId
+                    )
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                emptyState.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-state-icon">
+                            ⚠️
+                        </div>
+
+                        <strong>
+                            Profile Not Found
+                        </strong>
+
+                        <p>
+                            ${data.message}
+                        </p>
+
+                    </div>
+
+                `;
+
+                emptyState.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            const profile =
+                data.profile;
+
+
+            emptyState.style.display =
+                "none";
+
+
+            patientCard.innerHTML = `
+
+                <div class="patient-header">
+
+                    <div class="patient-avatar">
+
+                        ${getInitials(
+                            profile.full_name
+                        )}
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            ${profile.full_name}
+                        </h2>
+
+                        <p>
+                            Emergency ID:
+                            <strong>
+                                ${profile.emergency_id}
+                            </strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="critical-label">
+                    Critical Emergency Information
+                </div>
+
+
+                <div class="critical-grid">
+
+
+                    <div class="critical-card">
+
+                        <span>
+                            Blood Group
+                        </span>
+
+                        <strong>
+                            ${profile.blood_group ||
+                            "Not provided"}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="critical-card">
+
+                        <span>
+                            Critical Allergy
+                        </span>
+
+                        <strong>
+                            ${profile.allergies ||
+                            "None reported"}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="critical-card">
+
+                        <span>
+                            Medical Condition
+                        </span>
+
+                        <strong>
+                            ${profile.medical_conditions ||
+                            "None reported"}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="critical-card">
+
+                        <span>
+                            Critical Medication
+                        </span>
+
+                        <strong>
+                            ${profile.critical_medications ||
+                            "None reported"}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="access-box">
+
+                    <h3>
+                        🔐 Protected Medical Records
+                    </h3>
+
+                    <p>
+
+                        Detailed medical records are
+                        protected. Request temporary access
+                        to view them.
+
+                    </p>
+
+
+                    <button
+                        class="request-button"
+                        id="requestProtectedButton">
+
+                        Request Temporary Access
+
+                    </button>
+
+
+                    <div
+                        class="status-message"
+                        id="accessStatus">
+                    </div>
+
+                </div>
+                <!-- =========================
+     AMBULANCE → HOSPITAL
+========================== -->
+
+<div class="card" id="ambulanceCaseCard" style="margin-top:20px;">
+
+    <h3>🚑 Notify Hospital</h3>
+
+    <p style="color:#64748B;">
+        Send the patient's emergency details and estimated arrival
+        information to the hospital.
+    </p>
+
+    <div style="display:grid; gap:12px; margin-top:15px;">
+
+        <input
+            type="text"
+            id="incidentType"
+            placeholder="Incident type (e.g. Road accident)"
+            style="padding:13px;border:1px solid #CBD5E1;border-radius:10px;"
+        >
+
+        <input
+            type="text"
+            id="incidentLocation"
+            placeholder="Current location"
+            style="padding:13px;border:1px solid #CBD5E1;border-radius:10px;"
+        >
+
+        <input
+            type="number"
+            id="etaMinutes"
+            placeholder="Estimated arrival time (minutes)"
+            min="1"
+            style="padding:13px;border:1px solid #CBD5E1;border-radius:10px;"
+        >
+
+        <textarea
+            id="incidentNotes"
+            placeholder="Emergency notes"
+            rows="3"
+            style="padding:13px;border:1px solid #CBD5E1;border-radius:10px;"
+        ></textarea>
+
+        <button
+            type="button"
+            onclick="notifyHospital()"
+            class="btn btn-primary"
+        >
+            🚑 Notify Hospital
+        </button>
+
+    </div>
+
+    <div id="hospitalNotificationResult"
+         style="margin-top:15px;">
+    </div>
+
+</div>
+
+<div class="access-box" style="margin-top:18px;">
+
+    <h3>🚑 Ambulance Tracking</h3>
+
+    <p id="trackingStatus">
+        Create the emergency case first, then start live tracking.
+    </p>
+
+    <button
+        type="button"
+        id="startTrackingButton"
+        class="request-button"
+        onclick="startAmbulanceTracking()"
+        style="background:#dc2626;"
+    >
+        📍 Start Ambulance Tracking
+    </button>
+
+    <button
+        type="button"
+        id="stopTrackingButton"
+        class="request-button"
+        onclick="stopAmbulanceTracking()"
+        style="
+            background:#475569;
+            display:none;
+        "
+    >
+        🛑 Stop Tracking
+    </button>
+
+</div>
+        <div
+    class="access-box"
+    style="
+        margin-top:18px;
+        border-left:4px solid #2563EB;
+    "
+>
+
+    <h3>🏥 Hospital Status</h3>
+
+    <p
+        id="hospitalCaseStatus"
+        style="
+            margin-top:8px;
+            font-weight:800;
+            color:#2563EB;
+        "
+    >
+        Waiting for hospital response...
+    </p>
+
+    <p
+        id="hospitalCaseStatusTime"
+        style="
+            margin-top:6px;
+            font-size:.78rem;
+            color:#64748B;
+        "
+    >
+        —
+    </p>
+
+</div>
+            `;
+
+
+            result.classList.add(
+                "show"
+            );
+
+
+            /*
+            | Connect protected access
+            */
+
+            document
+                .getElementById(
+                    "requestProtectedButton"
+                )
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        requestProtectedAccess(
+                            profile.emergency_id
+                        );
+
+                    }
+                );
+
+
+        } catch(error) {
+
+            console.error(error);
+
+
+            emptyState.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-state-icon">
+                        ⚠️
+                    </div>
+
+                    <strong>
+                        Connection Error
+                    </strong>
+
+                    <p>
+                        Make sure XAMPP Apache is running.
+                    </p>
+
+                </div>
+
+            `;
+
+
+        } finally {
+
+            searchButton.disabled =
+                false;
+
+            searchButton.textContent =
+                "Search";
+
+        }
+
+    }
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Request protected access
+|--------------------------------------------------------------------------
+*/
+
+async function requestProtectedAccess(
+    emergencyId
+) {
+
+    const button =
+        document.getElementById(
+            "requestProtectedButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "accessStatus"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Requesting access...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/request-access.php",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            emergency_id:
+                                emergencyId,
+
+                            accessor_type:
+                                professionalRole,
+
+                            access_method:
+                                "PROFESSIONAL_PORTAL",
+
+                            reason:
+                                "Professional emergency treatment",
+
+                            details:
+                                "Access requested from professional portal."
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message
+            );
+
+        }
+
+        sessionStorage.setItem(
+    "access_id",
+    data.access_id
+);
+
+
+        status.innerHTML = `
+
+            ✓ Temporary access granted.
+
+            <br>
+
+            Access expires in
+            <strong>
+                ${data.duration_minutes} minutes
+            </strong>.
+
+            <br><br>
+
+            Access ID:
+            <strong>
+                ${data.access_id}
+            </strong>
+
+            <br><br>
+
+            <button
+                type="button"
+                onclick="loadProtectedRecords(
+                    '${emergencyId}',
+                    '${data.access_id}'
+                )"
+                style="
+                    border:none;
+                    padding:10px 15px;
+                    border-radius:9px;
+                    background:#2563eb;
+                    color:white;
+                    font-weight:800;
+                    cursor:pointer;
+                ">
+
+                View Protected Records
+
+            </button>
+
+        `;
+
+
+        status.style.background =
+            "#f0fdf4";
+
+        status.style.color =
+            "#166534";
+
+        status.style.border =
+            "1px solid #bbf7d0";
+
+        status.classList.add(
+            "show"
+        );
+
+
+    } catch(error) {
+
+        status.textContent =
+            error.message ||
+            "Unable to request access.";
+
+        status.style.background =
+            "#fef2f2";
+
+        status.style.color =
+            "#b91c1c";
+
+        status.style.border =
+            "1px solid #fecaca";
+
+        status.classList.add(
+            "show"
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Request Temporary Access";
+
+    }
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Load protected records
+|--------------------------------------------------------------------------
+*/
+
+async function loadProtectedRecords(
+    emergencyId,
+    accessId
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/get-protected-records.php?" +
+                "emergency_id=" +
+                encodeURIComponent(
+                    emergencyId
+                ) +
+                "&access_id=" +
+                encodeURIComponent(
+                    accessId
+                )
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            alert(
+                data.message ||
+                "Protected records unavailable."
+            );
+
+            return;
+
+        }
+
+
+        const records =
+            data.records;
+
+
+        let html = `
+
+            <div
+                style="
+                    margin-top:18px;
+                    padding-top:18px;
+                    border-top:
+                        1px solid #e2e8f0;
+                ">
+
+                <h4 style="
+                    margin:0 0 15px;
+                    color:#111827;
+                ">
+                    🔓 Protected Medical Records
+                </h4>
+
+        `;
+
+
+        if (records.length === 0) {
+
+            html += `
+
+                <p style="
+                    color:#64748b;
+                ">
+                    No detailed records available.
+                </p>
+
+            `;
+
+        }
+
+
+        records.forEach(record => {
+
+            html += `
+
+                <div style="
+                    padding:15px;
+                    margin-bottom:10px;
+                    border-radius:12px;
+                    background:#f8fafc;
+                    border:1px solid #e2e8f0;
+                ">
+
+                    <strong>
+                        ${record.diagnosis ||
+                        "Diagnosis unavailable"}
+                    </strong>
+
+                    <br><br>
+
+                    <span style="
+                        color:#475569;
+                        font-size:.84rem;
+                        line-height:1.7;
+                    ">
+
+                        Medication:
+                        ${record.medication ||
+                        "Not available"}
+
+                        <br>
+
+                        Hospital:
+                        ${record.hospital ||
+                        "Not available"}
+
+                        <br>
+
+                        Doctor:
+                        ${record.doctor ||
+                        "Not available"}
+
+                        <br>
+
+                        Date:
+                        ${record.record_date ||
+                        "Not available"}
+
+                        <br>
+
+                        Notes:
+                        ${record.notes ||
+                        "None"}
+
+                    </span>
+
+                </div>
+
+            `;
+
+        });
+
+
+        html += `</div>`;
+
+
+        const status =
+            document.getElementById(
+                "accessStatus"
+            );
+
+
+        status.innerHTML += html;
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to load protected records."
+        );
+
+    }
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Initials
+|--------------------------------------------------------------------------
+*/
+
+function getInitials(name) {
+
+    const parts =
+        name.trim().split(/\s+/);
+
+
+    if (parts.length >= 2) {
+
+        return (
+            parts[0][0] +
+            parts[parts.length - 1][0]
+        ).toUpperCase();
+
+    }
+
+
+    return name
+        .substring(0,2)
+        .toUpperCase();
+
+}
+async function notifyHospital() {
+
+    const emergencyId =
+    document.getElementById("emergencyIdInput").value.trim();
+
+    const accessId =
+        sessionStorage.getItem("access_id") || "";
+
+    const incidentType =
+        document.getElementById("incidentType").value.trim();
+
+    const location =
+        document.getElementById("incidentLocation").value.trim();
+
+    const eta =
+        document.getElementById("etaMinutes").value;
+
+    const notes =
+        document.getElementById("incidentNotes").value.trim();
+
+    if (!emergencyId) {
+        alert("Please search for a patient first.");
+        return;
+    }
+
+    if (!incidentType || !location || !eta) {
+        alert("Please enter incident type, location and ETA.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "backend/create-emergency-case.php",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+
+                    emergency_id: emergencyId,
+
+                    access_id: accessId,
+
+                    incident_type: incidentType,
+
+                    location: location,
+
+                    eta_minutes: parseInt(eta),
+
+                    notes: notes
+
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            document.getElementById(
+                "hospitalNotificationResult"
+            ).innerHTML = `
+                <div style="
+                    padding:12px;
+                    border-radius:10px;
+                    background:#FEE2E2;
+                    color:#991B1B;
+                ">
+                    ❌ ${data.message}
+                </div>
+            `;
+
+            return;
+        }
+
+        sessionStorage.setItem(
+    "active_case_id",
+    data.case.case_id
+);
+
+        document.getElementById(
+            "hospitalNotificationResult"
+        ).innerHTML = `
+            <div style="
+                padding:15px;
+                border-radius:12px;
+                background:#DCFCE7;
+                color:#166534;
+            ">
+
+                <strong>✅ Hospital notified</strong>
+
+                <br><br>
+
+                Case ID:
+                <strong>${data.case.case_id}</strong>
+
+                <br>
+
+                Patient:
+                <strong>${data.case.patient_name}</strong>
+
+                <br>
+
+                ETA:
+                <strong>${data.case.eta_minutes} minutes</strong>
+
+                <br>
+
+                Status:
+                <strong>IN TRANSIT</strong>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to notify hospital. Check the server."
+        );
+    }
+}
+/* =========================================================
+   HOSPITAL CASE STATUS
+   ========================================================= */
+
+let hospitalStatusTimer = null;
+
+async function checkHospitalCaseStatus() {
+
+    const caseId =
+        sessionStorage.getItem("active_case_id") || "";
+
+    if (!caseId) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "backend/get-emergency-cases.php"
+        );
+
+        const data = await response.json();
+
+        if (!data.success || !data.cases) {
+            return;
+        }
+
+        const currentCase =
+            data.cases.find(
+                caseItem =>
+                    caseItem.case_id === caseId
+            );
+
+        if (!currentCase) {
+            return;
+        }
+
+        const statusElement =
+            document.getElementById(
+                "hospitalCaseStatus"
+            );
+
+        const timeElement =
+            document.getElementById(
+                "hospitalCaseStatusTime"
+            );
+
+        const statusMap = {
+
+            "IN_TRANSIT": {
+                text: "🚑 IN TRANSIT",
+                color: "#2563EB"
+            },
+
+            "RECEIVED": {
+                text: "🏥 RECEIVED",
+                color: "#4338CA"
+            },
+
+            "PREPARING": {
+                text: "🩺 PREPARING",
+                color: "#D97706"
+            },
+
+            "READY": {
+                text: "✅ READY",
+                color: "#16A34A"
+            },
+
+            "COMPLETED": {
+               text: "🏁 COMPLETED",
+               color: "#475569"
+            }
+
+        };
+
+        const statusInfo =
+            statusMap[currentCase.status] || {
+                text: currentCase.status,
+                color: "#64748B"
+            };
+
+        if (statusElement) {
+
+            statusElement.textContent =
+                statusInfo.text;
+
+            statusElement.style.color =
+                statusInfo.color;
+        }
+
+        if (timeElement) {
+
+            timeElement.textContent =
+                "Last checked: " +
+                new Date().toLocaleTimeString();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Hospital status error:",
+            error
+        );
+    }
+}
+/* =========================================================
+   AMBULANCE LIVE TRACKING
+   ========================================================= */
+
+let ambulanceWatchId = null;
+let lastLocationSent = 0;
+
+
+/* Start tracking */
+
+function startAmbulanceTracking() {
+
+    const caseId =
+        sessionStorage.getItem("active_case_id") || "";
+
+    if (!caseId) {
+        alert(
+            "Please notify the hospital and create an emergency case first."
+        );
+        return;
+    }
+
+    if (!navigator.geolocation) {
+        alert(
+            "Location tracking is not supported by this browser."
+        );
+        return;
+    }
+
+    const status =
+        document.getElementById("trackingStatus");
+
+    const startButton =
+        document.getElementById("startTrackingButton");
+
+    const stopButton =
+        document.getElementById("stopTrackingButton");
+
+
+    status.innerHTML =
+        "📍 Requesting location permission...";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            status.innerHTML =
+                "🚑 <strong>Ambulance tracking is LIVE</strong><br>" +
+                "📍 Current location: Updating automatically";
+
+            startButton.style.display = "none";
+            stopButton.style.display = "inline-block";
+
+
+            ambulanceWatchId =
+                navigator.geolocation.watchPosition(
+
+                    function(position) {
+
+                        sendAmbulanceLocation(
+                            caseId,
+                            position
+                        );
+
+                    },
+
+                    function(error) {
+
+                        console.error(
+                            "Location error:",
+                            error
+                        );
+
+                        status.innerHTML =
+                            "⚠️ Unable to update location. " +
+                            "Please check location permission.";
+
+                    },
+
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 5000,
+                        timeout: 10000
+                    }
+
+                );
+
+        },
+
+        function(error) {
+
+            console.error(error);
+
+            status.innerHTML =
+                "⚠️ Location permission was not granted.";
+
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 5000
+        }
+
+    );
+}
+
+
+/* Send current location to server */
+
+async function sendAmbulanceLocation(
+    caseId,
+    position
+) {
+
+    const now =
+        Date.now();
+
+    /*
+       Prevent sending too many updates.
+       One update every 5 seconds is enough.
+    */
+
+    if (
+        now - lastLocationSent < 5000
+    ) {
+        return;
+    }
+
+    lastLocationSent = now;
+
+
+    /*
+       Location is collected automatically.
+       The paramedic does NOT enter it manually.
+    */
+
+    const location =
+        position.coords.latitude +
+        "," +
+        position.coords.longitude;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/update-ambulance-location.php",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        case_id: caseId,
+
+                        location: location
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            console.error(
+                data.message
+            );
+
+            return;
+        }
+
+
+        const status =
+            document.getElementById(
+                "trackingStatus"
+            );
+
+
+        if (status) {
+
+            status.innerHTML =
+                "🚑 <strong>Ambulance tracking is LIVE</strong><br>" +
+                "📍 Current location: Updating automatically<br>" +
+                "🕒 Last update: Just now";
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Tracking update failed:",
+            error
+        );
+
+    }
+
+}
+
+
+/* Stop tracking */
+
+function stopAmbulanceTracking() {
+
+    if (
+        ambulanceWatchId !== null
+    ) {
+
+        navigator.geolocation.clearWatch(
+            ambulanceWatchId
+        );
+
+        ambulanceWatchId = null;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "trackingStatus"
+        );
+
+    const startButton =
+        document.getElementById(
+            "startTrackingButton"
+        );
+
+    const stopButton =
+        document.getElementById(
+            "stopTrackingButton"
+        );
+
+
+    if (status) {
+
+        status.innerHTML =
+            "⏸️ Ambulance tracking stopped.";
+
+    }
+
+
+    if (startButton) {
+
+        startButton.style.display =
+            "inline-block";
+
+    }
+
+
+    if (stopButton) {
+
+        stopButton.style.display =
+            "none";
+
+    }
+
+}
+/* Check hospital status every 5 seconds */
+
+checkHospitalCaseStatus();
+
+hospitalStatusTimer = setInterval(
+    checkHospitalCaseStatus,
+    5000
+);
+
+</script>
+<script>
+
+async function professionalLogout() {
+
+    try {
+
+        const response =
+            await fetch(
+                "backend/professional-logout.php",
+                {
+                    method: "POST",
+                    credentials: "include"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Clear frontend display session
+        |--------------------------------------------------------------------------
+        */
+
+        sessionStorage.removeItem(
+            "professional_role"
+        );
+
+        sessionStorage.removeItem(
+            "professional_id"
+        );
+
+        sessionStorage.removeItem(
+            "professional_name"
+        );
+
+        sessionStorage.removeItem(
+            "access_id"
+        );
+
+        sessionStorage.removeItem(
+            "active_case_id"
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return to login
+        |--------------------------------------------------------------------------
+        */
+
+        window.location.href =
+            "professional-login.html";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+        /*
+        | Even if the request fails,
+        | clear the frontend session.
+        */
+
+        sessionStorage.clear();
+
+        window.location.href =
+            "professional-login.html";
+    }
+}
+
+</script>
+
+</body>
+
+</html>

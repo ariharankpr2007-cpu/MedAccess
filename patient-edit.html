@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Emergency Profile | MedAccess</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.edit-page{min-height:100vh;background:#f6f9fc;padding:110px 20px 60px}.edit-container{width:min(900px,100%);margin:auto}
+.edit-card{background:#fff;border:1px solid #e5e7eb;border-radius:24px;padding:32px;box-shadow:0 14px 45px rgba(15,23,42,.07)}
+.edit-heading{margin-bottom:28px}.edit-heading h1{margin:0 0 7px;color:#111827}.edit-heading p{margin:0;color:#64748b}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.form-group{display:flex;flex-direction:column;gap:7px}.full{grid-column:1/-1}
+.form-group label{font-weight:800;color:#334155}.form-group input,.form-group select,.form-group textarea{box-sizing:border-box;width:100%;padding:12px 13px;border:1px solid #cbd5e1;border-radius:11px;font:inherit}.form-group textarea{min-height:95px;resize:vertical}
+.form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:25px}.btn{border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#2563eb;color:#fff}.secondary{background:#f1f5f9;color:#334155}.btn:disabled{opacity:.6}
+.message{display:none;margin-bottom:20px;padding:12px;border-radius:10px}.success{background:#dcfce7;color:#166534}.error{background:#fee2e2;color:#991b1b}
+@media(max-width:650px){.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.form-actions{flex-direction:column}.btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="container nav-container">
+<a href="index.html" class="logo"><span class="logo-mark">+</span><span>MedAccess</span></a>
+<nav class="main-nav"><a href="patient-dashboard.html">Dashboard</a><a href="emergency.html">Emergency View</a></nav>
+</div></header>
+<main class="edit-page"><div class="edit-container"><section class="edit-card">
+<div class="edit-heading"><h1>Update Emergency Profile</h1><p>Keep your critical medical information accurate and current.</p></div>
+<div id="message" class="message"></div>
+<form id="editForm"><div class="form-grid">
+<div class="form-group"><label>Full Name</label><input id="full_name" required></div>
+<div class="form-group"><label>Mobile Number</label><input id="phone" type="tel" pattern="[0-9]{10}" maxlength="10" required></div>
+<div class="form-group"><label>Email Address</label><input id="email" type="email"></div>
+<div class="form-group"><label>Blood Group</label><select id="blood_group"><option value="">Not provided</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+<div class="form-group full"><label>Allergies</label><textarea id="allergies" placeholder="e.g. Penicillin"></textarea></div>
+<div class="form-group full"><label>Medical Conditions</label><textarea id="medical_conditions" placeholder="e.g. Type 2 Diabetes"></textarea></div>
+<div class="form-group full"><label>Critical Medications</label><textarea id="critical_medications" placeholder="e.g. Metformin 500mg"></textarea></div>
+<div class="form-group"><label>Emergency Contact Name</label><input id="emergency_contact_name" required></div>
+<div class="form-group"><label>Emergency Contact Phone</label><input id="emergency_contact_phone" type="tel" pattern="[0-9]{10}" maxlength="10" required></div>
+</div>
+<div class="form-actions"><a class="btn secondary" href="patient-dashboard.html">Cancel</a><button class="btn primary" id="saveButton" type="submit">Save Changes</button></div>
+</form></section></div></main>
+<script>
+const form=document.getElementById("editForm"), msg=document.getElementById("message"), save=document.getElementById("saveButton");
+function show(type,text){msg.className="message "+type;msg.textContent=text;msg.style.display="block";}
+async function load(){
+ try{
+  const r=await fetch("backend/patient-session.php"); const d=await r.json();
+  if(!d.success){window.location.href="patient-login.html";return;}
+  const p=d.profile;
+  ["full_name","phone","email","blood_group","allergies","medical_conditions","critical_medications","emergency_contact_name","emergency_contact_phone"].forEach(k=>{document.getElementById(k).value=p[k]||"";});
+  localStorage.setItem("emergency_id",p.emergency_id); localStorage.setItem("user_id",p.user_id);
+ }catch(e){show("error","Unable to load your profile.");}
+}
+form.addEventListener("submit",async e=>{
+ e.preventDefault(); if(!form.checkValidity()){form.reportValidity();return;}
+ save.disabled=true;save.textContent="Saving...";
+ const data={};["full_name","phone","email","blood_group","allergies","medical_conditions","critical_medications","emergency_contact_name","emergency_contact_phone"].forEach(k=>data[k]=document.getElementById(k).value.trim());
+ try{const r=await fetch("backend/update-profile.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const d=await r.json();
+  if(!d.success){show("error",d.message||"Update failed.");save.disabled=false;save.textContent="Save Changes";return;}
+  localStorage.setItem("emergency_id",d.emergency_id);show("success","Profile updated successfully.");setTimeout(()=>window.location.href="patient-dashboard.html",700);
+ }catch(e){show("error","Unable to connect to the server.");save.disabled=false;save.textContent="Save Changes";}
+});
+load();
+</script>
+</body>
+</html>

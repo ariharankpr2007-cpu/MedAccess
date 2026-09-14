@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Login | MedAccess</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.auth-page{min-height:100vh;background:#f6f9fc;padding:110px 20px 60px;display:grid;place-items:center}
+.auth-card{width:min(460px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:24px;padding:34px;box-shadow:0 16px 45px rgba(15,23,42,.08)}
+.auth-card h1{margin:0 0 8px;color:#111827}.auth-card>p{color:#64748b;line-height:1.6;margin:0 0 26px}
+.form-group{margin-bottom:18px}.form-group label{display:block;font-weight:800;color:#334155;margin-bottom:7px}
+.form-group input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #cbd5e1;border-radius:11px;font:inherit}
+.form-button{width:100%;border:0;border-radius:11px;padding:13px 16px;background:#2563eb;color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.form-button:disabled{opacity:.6;cursor:not-allowed}
+.error{display:none;margin-bottom:18px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;font-size:.9rem}
+.auth-links{text-align:center;margin-top:18px;color:#64748b;font-size:.9rem}.auth-links a{color:#2563eb;font-weight:800;text-decoration:none}
+.notice{padding:12px;border-radius:10px;background:#eff6ff;color:#1e3a8a;font-size:.82rem;line-height:1.5;margin-bottom:20px}
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="container nav-container">
+<a href="index.html" class="logo"><span class="logo-mark">+</span><span>MedAccess</span></a>
+<nav class="main-nav"><a href="index.html">Home</a><a href="emergency.html">Emergency View</a></nav>
+</div>
+</header>
+<main class="auth-page">
+<section class="auth-card">
+<h1>Patient Login</h1>
+<p>Sign in to securely manage and update your emergency medical profile.</p>
+<div class="notice">Emergency access does not require this login. This login only protects your personal profile and updates.</div>
+<div class="error" id="error"></div>
+<form id="loginForm">
+<div class="form-group">
+<label for="phone">Registered Mobile Number</label>
+<input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="9876543210" required>
+</div>
+<div class="form-group">
+<label for="password">Password</label>
+<input id="password" name="password" type="password" minlength="6" placeholder="Your password" required>
+</div>
+<button class="form-button" id="loginButton" type="submit">Login</button>
+</form>
+<div class="auth-links">Don't have an account? <a href="patient-register.html">Create Emergency Profile</a></div>
+</section>
+</main>
+<script>
+const form=document.getElementById("loginForm"), button=document.getElementById("loginButton"), error=document.getElementById("error");
+form.addEventListener("submit",async e=>{
+ e.preventDefault(); error.style.display="none";
+ button.disabled=true; button.textContent="Signing in...";
+ try{
+  const response=await fetch("backend/patient-login.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:document.getElementById("phone").value.trim(),password:document.getElementById("password").value})});
+  const data=await response.json();
+  if(!data.success){error.textContent=data.message||"Login failed.";error.style.display="block";button.disabled=false;button.textContent="Login";return;}
+  localStorage.setItem("emergency_id",data.emergency_id);
+  localStorage.setItem("user_id",data.user_id);
+  window.location.href="patient-dashboard.html";
+ }catch(err){error.textContent="Unable to connect to the server. Make sure XAMPP Apache is running.";error.style.display="block";button.disabled=false;button.textContent="Login";}
+});
+</script>
+</body>
+</html>

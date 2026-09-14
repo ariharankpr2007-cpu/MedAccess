@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>IVR Emergency Access | MedAccess</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+
+    <style>
+
+        .ivr-page {
+
+            min-height:100vh;
+
+            background:#f6f9fc;
+
+            padding-top:90px;
+
+        }
+
+
+        .ivr-container {
+
+            width:min(900px,92%);
+
+            margin:auto;
+
+            padding:50px 0 70px;
+
+        }
+
+
+        .ivr-header {
+
+            text-align:center;
+
+            margin-bottom:35px;
+
+        }
+
+
+        .ivr-eyebrow {
+
+            color:#2563eb;
+
+            font-size:.8rem;
+
+            font-weight:800;
+
+            letter-spacing:.12em;
+
+            text-transform:uppercase;
+
+            margin-bottom:10px;
+
+        }
+
+
+        .ivr-header h1 {
+
+            margin:0 0 12px;
+
+            color:#111827;
+
+            font-size:clamp(
+                2rem,
+                5vw,
+                3rem
+            );
+
+        }
+
+
+        .ivr-header p {
+
+            max-width:650px;
+
+            margin:auto;
+
+            color:#64748b;
+
+            line-height:1.7;
+
+        }
+
+
+        .ivr-layout {
+
+            display:grid;
+
+            grid-template-columns:
+                .8fr
+                1.2fr;
+
+            gap:25px;
+
+        }
+
+
+        /* PHONE */
+
+        .phone {
+
+            background:#0f172a;
+
+            border-radius:35px;
+
+            padding:22px;
+
+            max-width:330px;
+
+            width:100%;
+
+            margin:auto;
+
+            box-shadow:
+                0 25px 60px
+                rgba(15,23,42,.2);
+
+        }
+
+
+        .phone-speaker {
+
+            width:70px;
+
+            height:5px;
+
+            background:#334155;
+
+            border-radius:10px;
+
+            margin:0 auto 18px;
+
+        }
+
+
+        .phone-screen {
+
+            min-height:390px;
+
+            background:#f8fafc;
+
+            border-radius:23px;
+
+            padding:20px;
+
+            display:flex;
+
+            flex-direction:column;
+
+        }
+
+
+        .call-status {
+
+            text-align:center;
+
+            color:#16a34a;
+
+            font-size:.75rem;
+
+            font-weight:800;
+
+            margin-bottom:18px;
+
+        }
+
+
+        .call-icon {
+
+            width:65px;
+
+            height:65px;
+
+            border-radius:50%;
+
+            margin:10px auto;
+
+            display:grid;
+
+            place-items:center;
+
+            background:#dcfce7;
+
+            font-size:1.6rem;
+
+            animation:callPulse 1.6s infinite;
+
+        }
+
+
+        @keyframes callPulse {
+
+            50% {
+
+                box-shadow:
+                    0 0 0 12px
+                    rgba(34,197,94,.08);
+
+            }
+
+        }
+
+
+        .voice-text {
+
+            margin-top:15px;
+
+            padding:15px;
+
+            border-radius:14px;
+
+            background:white;
+
+            border:1px solid #e2e8f0;
+
+            color:#334155;
+
+            font-size:.82rem;
+
+            line-height:1.6;
+
+            text-align:center;
+
+        }
+
+
+        /* CONTROLS */
+
+        .ivr-card {
+
+            background:white;
+
+            border:1px solid #e5e7eb;
+
+            border-radius:24px;
+
+            padding:30px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(15,23,42,.08);
+
+        }
+
+
+        .ivr-card h2 {
+
+            margin:0 0 8px;
+
+            color:#111827;
+
+        }
+
+
+        .ivr-card-description {
+
+            color:#64748b;
+
+            font-size:.88rem;
+
+            line-height:1.6;
+
+            margin-bottom:25px;
+
+        }
+
+
+        .ivr-form label {
+
+            display:block;
+
+            color:#334155;
+
+            font-size:.85rem;
+
+            font-weight:800;
+
+            margin-bottom:8px;
+
+        }
+
+
+        .ivr-form input {
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:13px;
+
+            border:1px solid #cbd5e1;
+
+            border-radius:11px;
+
+            font:inherit;
+
+            outline:none;
+
+            margin-bottom:18px;
+
+        }
+
+
+        .ivr-form input:focus {
+
+            border-color:#2563eb;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,.08);
+
+        }
+
+
+        .call-button {
+
+            width:100%;
+
+            border:none;
+
+            cursor:pointer;
+
+            padding:14px;
+
+            border-radius:12px;
+
+            background:#16a34a;
+
+            color:white;
+
+            font:inherit;
+
+            font-weight:800;
+
+            transition:.3s ease;
+
+        }
+
+
+        .call-button:hover {
+
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(22,163,74,.2);
+
+        }
+
+
+        .call-button:disabled {
+
+            opacity:.6;
+
+            cursor:not-allowed;
+
+        }
+
+
+        /* MENU */
+
+        .ivr-menu {
+
+            display:none;
+
+            margin-top:25px;
+
+        }
+
+
+        .ivr-menu.show {
+
+            display:block;
+
+            animation:
+                menuAppear .4s ease;
+
+        }
+
+
+        @keyframes menuAppear {
+
+            from {
+
+                opacity:0;
+
+                transform:translateY(12px);
+
+            }
+
+            to {
+
+                opacity:1;
+
+                transform:translateY(0);
+
+            }
+
+        }
+
+
+        .menu-title {
+
+            text-align:center;
+
+            color:#111827;
+
+            font-weight:800;
+
+            margin-bottom:15px;
+
+        }
+
+
+        .menu-buttons {
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap:10px;
+
+        }
+
+
+        .menu-button {
+
+            border:1px solid #dbeafe;
+
+            background:#eff6ff;
+
+            padding:14px;
+
+            border-radius:12px;
+
+            cursor:pointer;
+
+            color:#1e40af;
+
+            font:inherit;
+
+            font-weight:800;
+
+            transition:.25s ease;
+
+        }
+
+
+        .menu-button:hover {
+
+            transform:translateY(-2px);
+
+            background:#dbeafe;
+
+        }
+
+
+        .voice-result {
+
+            display:none;
+
+            margin-top:18px;
+
+            padding:17px;
+
+            border-radius:14px;
+
+            background:#f0fdf4;
+
+            border:1px solid #bbf7d0;
+
+            color:#166534;
+
+            line-height:1.7;
+
+            font-size:.86rem;
+
+        }
+
+
+        .voice-result.show {
+
+            display:block;
+
+        }
+
+
+        .ivr-info {
+
+            margin-top:22px;
+
+            padding:15px;
+
+            border-radius:13px;
+
+            background:#eff6ff;
+
+            border:1px solid #dbeafe;
+
+            color:#475569;
+
+            font-size:.8rem;
+
+            line-height:1.6;
+
+        }
+
+
+        @media(max-width:750px) {
+
+            .ivr-page {
+
+                padding-top:75px;
+
+            }
+
+            .ivr-layout {
+
+                grid-template-columns:1fr;
+
+            }
+
+            .phone {
+
+                max-width:300px;
+
+            }
+
+        }
+
+
+        @media(max-width:500px) {
+
+            .menu-buttons {
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+    <div class="container nav-container">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <span class="logo-mark">+</span>
+
+            <span>MedAccess</span>
+
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="emergency.html">
+                Emergency View
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="ivr-page">
+
+
+<div class="ivr-container">
+
+
+    <div class="ivr-header">
+
+        <div class="ivr-eyebrow">
+            Universal Emergency Access
+        </div>
+
+
+        <h1>
+            Emergency Access via IVR
+        </h1>
+
+
+        <p>
+            A voice-based emergency channel for people
+            using a basic phone or without mobile internet.
+        </p>
+
+    </div>
+
+
+
+    <div class="ivr-layout">
+
+
+        <!-- PHONE SIMULATION -->
+
+        <div class="phone">
+
+            <div class="phone-speaker"></div>
+
+
+            <div class="phone-screen">
+
+                <div
+                    class="call-status"
+                    id="callStatus">
+
+                    READY TO CALL
+
+                </div>
+
+
+                <div class="call-icon">
+                    ☎
+                </div>
+
+
+                <div
+                    class="voice-text"
+                    id="voiceText">
+
+                    Enter an Emergency ID
+                    and start the simulated call.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- IVR CONTROLS -->
+
+        <div class="ivr-card">
+
+            <h2>
+                Simulate Emergency Call
+            </h2>
+
+
+            <p class="ivr-card-description">
+
+                In a real deployment, the caller would
+                dial the emergency access number and
+                interact with an automated voice menu.
+
+            </p>
+
+
+            <form
+                class="ivr-form"
+                id="ivrForm">
+
+
+                <label for="emergencyId">
+
+                    Emergency ID
+
+                </label>
+
+
+                <input
+                    id="emergencyId"
+                    type="text"
+                    placeholder="MED-9713-59"
+                    required>
+
+
+                <label for="callerPhone">
+
+                    Caller Phone
+
+                </label>
+
+
+                <input
+                    id="callerPhone"
+                    type="tel"
+                    placeholder="10-digit number"
+                    pattern="[0-9]{10}"
+                    required>
+
+
+                <button
+                    type="submit"
+                    class="call-button"
+                    id="callButton">
+
+                    ☎ Start Emergency Call
+
+                </button>
+
+            </form>
+
+
+
+            <!-- MENU -->
+
+            <div
+                class="ivr-menu"
+                id="ivrMenu">
+
+
+                <div class="menu-title">
+
+                    Automated Emergency Menu
+
+                </div>
+
+
+                <div class="menu-buttons">
+
+
+                    <button
+                        class="menu-button"
+                        data-option="1">
+
+                        1 — Blood Group
+
+                    </button>
+
+
+                    <button
+                        class="menu-button"
+                        data-option="2">
+
+                        2 — Critical Allergy
+
+                    </button>
+
+
+                    <button
+                        class="menu-button"
+                        data-option="3">
+
+                        3 — Medical Conditions
+
+                    </button>
+
+
+                    <button
+                        class="menu-button"
+                        data-option="4">
+
+                        4 — Emergency Contact
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="voice-result"
+                    id="voiceResult">
+                </div>
+
+            </div>
+
+
+
+            <div class="ivr-info">
+
+                ☎️ <strong>Prototype mode:</strong>
+
+                This simulates an IVR interaction locally.
+                In production, a telephony provider would
+                convert these menu actions into real voice
+                prompts and keypad input.
+
+                <br><br>
+
+                🔐 The IVR channel exposes only essential
+                emergency information. Detailed medical
+                records remain protected.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+
+<script>
+
+const ivrForm =
+    document.getElementById(
+        "ivrForm"
+    );
+
+
+const callButton =
+    document.getElementById(
+        "callButton"
+    );
+
+
+const callStatus =
+    document.getElementById(
+        "callStatus"
+    );
+
+
+const voiceText =
+    document.getElementById(
+        "voiceText"
+    );
+
+
+const ivrMenu =
+    document.getElementById(
+        "ivrMenu"
+    );
+
+
+const voiceResult =
+    document.getElementById(
+        "voiceResult"
+    );
+
+
+
+let ivrData = null;
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Start call
+|--------------------------------------------------------------------------
+*/
+
+ivrForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const emergencyId =
+            document
+                .getElementById(
+                    "emergencyId"
+                )
+                .value
+                .trim()
+                .toUpperCase();
+
+
+        const callerPhone =
+            document
+                .getElementById(
+                    "callerPhone"
+                )
+                .value
+                .trim();
+
+
+        callButton.disabled =
+            true;
+
+
+        callButton.textContent =
+            "Connecting...";
+
+
+        callStatus.textContent =
+            "CONNECTING";
+
+
+        voiceText.textContent =
+            "Connecting to MedAccess emergency service...";
+
+
+        ivrMenu.classList.remove(
+            "show"
+        );
+
+
+        voiceResult.classList.remove(
+            "show"
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "backend/ivr-lookup.php",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                emergency_id:
+                                    emergencyId,
+
+                                caller_phone:
+                                    callerPhone
+
+                            })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!result.success) {
+
+                callStatus.textContent =
+                    "CALL ENDED";
+
+
+                voiceText.textContent =
+                    result.message ||
+                    "Emergency profile not found.";
+
+
+                return;
+
+            }
+
+
+            ivrData =
+                result;
+
+
+            /*
+            | Simulated voice prompt
+            */
+
+            callStatus.textContent =
+                "CALL CONNECTED";
+
+
+            voiceText.textContent =
+                `Welcome to MedAccess.
+                
+Emergency profile found for
+${result.patient_name}.
+
+Please select an option below.`;
+
+
+            ivrMenu.classList.add(
+                "show"
+            );
+
+
+        } catch(error) {
+
+            console.error(error);
+
+
+            callStatus.textContent =
+                "CALL FAILED";
+
+
+            voiceText.textContent =
+                "Unable to connect to the emergency service.";
+
+        } finally {
+
+            callButton.disabled =
+                false;
+
+            callButton.textContent =
+                "☎ Start Emergency Call";
+
+        }
+
+    }
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| IVR menu selection
+|--------------------------------------------------------------------------
+*/
+
+document
+    .querySelectorAll(
+        ".menu-button"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                if (!ivrData) {
+                    return;
+                }
+
+
+                const option =
+                    this.dataset.option;
+
+
+                const selected =
+                    ivrData.menu[option];
+
+
+                if (!selected) {
+                    return;
+                }
+
+
+                /*
+                | Simulate voice response
+                */
+
+                voiceText.textContent =
+                    `MedAccess says:
+
+${selected.title}:
+${selected.value}`;
+
+
+                voiceResult.innerHTML = `
+
+                    🔊 <strong>
+                        Voice response
+                    </strong>
+
+                    <br><br>
+
+                    ${selected.title}:
+
+                    <strong>
+                        ${selected.value}
+                    </strong>
+
+                `;
+
+
+                voiceResult.classList.add(
+                    "show"
+                );
+
+            }
+        );
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

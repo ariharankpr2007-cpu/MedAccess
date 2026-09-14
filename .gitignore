@@ -1,0 +1,19 @@
+# Local / XAMPP
+xampp/
+*.log
+
+# Environment / secrets
+.env
+.env.*
+backend/config.php
+backend/exotel-config.php
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
