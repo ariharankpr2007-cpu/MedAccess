@@ -544,8 +544,17 @@ loginForm.addEventListener(
             |--------------------------------------------------------------------------
             */
 
-            window.location.href =
-                "professional-dashboard.html";
+            if (data.professional.role === "HOSPITAL_STAFF") {
+
+    window.location.href =
+        "hospital-dashboard.html";
+
+} else {
+
+    window.location.href =
+        "professional-dashboard.html";
+
+}
 
         }
 
