@@ -65,3 +65,49 @@ Authorized Access
 Relevant Medical Information
    ↓
 Access Logged
+
+🛠️ Technologies
+Technology	Purpose
+HTML	Page structure
+CSS	Styling and responsive design
+JavaScript	Interactive functionality
+PHP	Server-side functionality
+MySQL	Database
+📱 Responsive Design
+
+The platform is designed to work across:
+
+💻 Desktop
+📱 Mobile
+📲 Tablet
+🌐 Live Demo
+
+https://medaccess.infy.click/index.html
+
+🎯 Problem Being Addressed
+
+During emergencies, medical information may not be readily
+available to responders.
+
+MedAccess explores a digital approach where essential medical
+information can be accessed quickly while maintaining
+controlled access to more detailed patient information.
+
+🔒 Project Status
+
+MedAccess is a prototype/development project created to
+demonstrate an emergency medical information access concept.
+
+It should not be considered a replacement for professional
+medical systems or emergency services.
+
+👨‍💻 Developer
+
+Ariharan
+
+Web & App Developer
+
+🔗 GitHub:
+https://github.com/ariharankpr2007-cpu
+
+⭐ Explore the project and its source code to learn more.
